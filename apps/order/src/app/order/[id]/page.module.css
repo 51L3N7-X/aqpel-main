@@ -1,0 +1,22 @@
+/* .background {
+  position: absolute;
+  min-height: 100vh;
+  min-width: 100vw;
+  z-index: -1;
+  background: rgba(7, 7, 7, 0.31);
+  backdrop-filter: blur(2.5px);
+}
+
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.steam {
+  position: absolute;
+  z-index: -2;
+  top: 70dvh;
+  right: -60dvw;
+} */

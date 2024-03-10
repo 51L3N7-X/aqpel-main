@@ -1,0 +1,50 @@
+{
+  "name": "dashboard",
+  "version": "0.1.0",
+  "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@hookform/resolvers": "^3.3.4",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/tailwind-config": "workspace:*",
+    "@repo/types": "workspace:*",
+    "axios": "^1.6.7",
+    "axios-auth-refresh": "^3.3.6",
+    "next": "^14.1.0",
+    "next-intl": "^3.8.0",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "rc-slider": "^10.5.0",
+    "react": "^18.2.0",
+    "react-avatar-editor": "^13.0.2",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.51.0",
+    "styled-components": "^6.1.1",
+    "swr": "^2.2.4",
+    "zod": "^3.22.4",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@tanstack/eslint-plugin-query": "^5.6.0",
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.2.58",
+    "@types/react-avatar-editor": "^13.0.2",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/parser": "^7.0.2",
+    "autoprefixer": "^10.4.16",
+    "cssnano": "^6.0.3",
+    "eslint": "^8.56.0",
+    "postcss": "^8.4.35",
+    "postcss-100vh-fix": "^1.0.2",
+    "prettier": "^3.1.1",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
+  },
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "eslint .",
+    "start": "next start"
+  }
+}

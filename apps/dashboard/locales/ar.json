@@ -1,0 +1,19 @@
+{
+  "SingUpCard": {
+    "Header": "اشتراك",
+    "description": "مرحباً بكم في aqpel",
+    "inputs": {
+      "email": {
+        "placeholder": "example@mail.com"
+      },
+      "username": {
+        "placeholder": "username"
+      },
+      "password": {
+        "placeholder": "password"
+      }
+    },
+    "button": "اشتراك",
+    "footer": { "text": "لديك حساب بالفعل؟", "url": "تسجيل الدخول" }
+  }
+}

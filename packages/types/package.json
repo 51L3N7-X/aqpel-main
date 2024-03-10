@@ -1,0 +1,16 @@
+{
+  "name": "@repo/types",
+  "description": "",
+  "version": "1.0.0",
+  "author": "",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "types": "index.ts"
+}

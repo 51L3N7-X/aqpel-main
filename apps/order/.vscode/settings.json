@@ -1,0 +1,11 @@
+{
+  "eslint.lintTask.enable": true
+  // "eslint.workingDirectories": [
+  //   {
+  //     "mode": "auto"
+  //   }
+  // ],
+  // "eslint.codeActionsOnSave.mode": "all"
+  // "eslint.experimental.useFlatConfig": true,
+  // "eslint.validate": ["react", "typescript", "jsx", "tsx"]
+}

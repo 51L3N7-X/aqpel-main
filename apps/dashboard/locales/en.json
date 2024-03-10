@@ -1,0 +1,19 @@
+{
+  "SingUpCard": {
+    "Header": "Sign Up",
+    "description": "Welcome to Aqpel",
+    "inputs": {
+      "email": {
+        "placeholder": "example@mail.com"
+      },
+      "username": {
+        "placeholder": "username"
+      },
+      "password": {
+        "placeholder": "password"
+      }
+    },
+    "button": "Sign Up",
+    "footer": { "text": "Already have an account?", "url": "Sign in" }
+  }
+}

@@ -3,5 +3,38 @@
     {
       "mode": "auto"
     }
+  ],
+  "jest.runMode": {
+    "type": "on-demand"
+  },
+  "cSpell.words": [
+    "aqpel",
+    "nextjs",
+    "اشتراك",
+    "الدخول",
+    "المرور",
+    "المستخدم",
+    "بالفعل",
+    "تسجيل",
+    "حساب",
+    "كلمة",
+    "لديك",
+    "مرحباً"
+  ],
+  "cSpell.ignoreWords": [
+    "Logorsign",
+    "nunito",
+    "signin",
+    "signup",
+    "tailwindcss",
+    "zustand"
   ]
+  // "eslint.lintTask.enable": true,
+  // "eslint.trace.server": "messages",
+  // "eslint.workingDirectories": ["/apps/order/*"]
+  // "eslint.experimental.useFlatConfig": true
+  // "eslint.experimental.useFlatConfig": true,
+  // "javascript.validate.enable": true,
+  // "eslint.lintTask.enable": true,
+  // "eslint.trace.server": "messages"
 }

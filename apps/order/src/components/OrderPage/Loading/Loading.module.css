@@ -1,0 +1,51 @@
+.container {
+  max-width: 500px;
+  max-height: 500px;
+  margin: 0 auto;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  animation: fade-in 1s;
+}
+
+.loading_text {
+  color: var(--pr-yellow-color);
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  text-transform: capitalize;
+  margin: 0 auto;
+  width: auto;
+  text-align: center;
+  position: absolute;
+  bottom: 83px;
+}
+
+.btn {
+  background-color: var(--pr-yellow-color);
+  color: var(--pr-black-color);
+  border-radius: 20px;
+  text-align: center;
+  width: 220px;
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

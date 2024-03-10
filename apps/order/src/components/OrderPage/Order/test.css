@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap");
+
+:root {
+  --pr-yellow-color: #ffcc36;
+  --pr-black-color: #313638;
+  --pr-white1-color: #fdfdfd;
+  --pr-white2-color: #fbfaf6;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  /* overflow: hidden; */
+}
+
+.parent {
+  min-height: 100dvh;
+  background-image: url(/order/images/background.jpg);
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  overflow: hidden;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
