@@ -1,6 +1,5 @@
 import express from "express";
 
-import { getS3Url } from "../../services/getS3Url";
 import { auth } from "../../middlewares/auth";
 
 import { router as userRouter } from "./user.route";
@@ -11,6 +10,7 @@ import { router as kitchenRouter } from "./kitchen.route";
 import { router as publicRouter } from "./public.route";
 import { router as appRouter } from "./app.route";
 import { router as authRouter } from "./auth.route";
+import { getUrl } from "../../controllers/dashboard/getS3Url";
 
 const defaultRouters = [
   {
@@ -49,8 +49,8 @@ const defaultRouters = [
 
 export const router = express.Router();
 
+router.get("/getUploadURL", auth(), getUrl);
+
 defaultRouters.forEach((route) => {
   router.use(route.path, route.route);
 });
-
-router.get("/getUploadUrl", auth(), getS3Url);

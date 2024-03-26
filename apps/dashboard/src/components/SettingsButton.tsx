@@ -6,7 +6,7 @@ export default function SettingsButton() {
   return (
     <Link href="/settings">
       {/* eslint-disable-next-line tailwindcss/classnames-order */}
-      <div className="shadow-fi mr-12 flex size-[46px] items-center justify-center rounded-[10px] bg-[#F3F3F3]">
+      <div className="mr-12 flex size-[46px] items-center justify-center rounded-[10px] bg-[#F3F3F3] shadow-fi">
         <Image
           src="/TopSettingsIcon.svg"
           height={24}

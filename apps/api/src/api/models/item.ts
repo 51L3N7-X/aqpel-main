@@ -8,18 +8,18 @@ const itemSchema = new mongoose.Schema({
     required: true,
   },
   price: {
-    type: String,
+    type: Number,
     required: true,
   },
   description: String,
-  calories: String,
+  calories: Number,
   people: Number,
   new: Boolean,
   special: Boolean,
   imageUrl: String,
   userId: { type: Schema.Types.ObjectId },
   menuId: { type: Schema.Types.ObjectId },
-  categorieId: { type: Schema.Types.ObjectId },
+  categoryId: { type: Schema.Types.ObjectId },
   restaurant_id: { type: Schema.Types.ObjectId },
 });
 

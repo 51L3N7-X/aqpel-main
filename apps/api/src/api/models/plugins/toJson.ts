@@ -7,6 +7,7 @@ const deleteAtPath = (obj: any, path: any, index: any) => {
 };
 
 export const toJSON = (schema: any) => {
+  // console.log(schema.paths["menus"].options.type[0]);
   let transform: Function;
   if (schema.options.toJSON && schema.options.toJSON.transform) {
     transform = schema.options.toJSON.transform;
@@ -21,6 +22,7 @@ export const toJSON = (schema: any) => {
       });
 
       ret.id = ret._id.toString();
+      if (ret.userId) ret.userId = ret.userId.toString();
       delete ret._id;
       delete ret.__v;
       delete ret.createdAt;

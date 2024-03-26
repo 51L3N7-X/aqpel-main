@@ -15,5 +15,5 @@ router.use(auth());
 router.post("/", addWaiter);
 router.get("/", getWaiters);
 router.get("/:waiterId", getIndivWaiter);
-router.put("/:waiterId", modifyWaiter);
+router.patch("/:waiterId", modifyWaiter);
 router.delete("/:waiterId", deleteWaiter);

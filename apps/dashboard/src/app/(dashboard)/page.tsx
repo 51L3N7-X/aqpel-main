@@ -12,7 +12,12 @@ export default function Page() {
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
   useEffect(() => {
-    const user = fetchApi("/user", router, localStorage.getItem("token")!);
+    const user = fetchApi({
+      url: "/user",
+      method: "get",
+      router,
+      token: localStorage.getItem("token")!,
+    });
     setUser(user);
   }, [setUser, router]);
   return <section />;

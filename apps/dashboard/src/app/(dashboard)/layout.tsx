@@ -1,5 +1,7 @@
 "use client";
 
+import { NextUIProvider } from "@nextui-org/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -7,6 +9,8 @@ import Search from "@/components/Search";
 import SettingsButton from "@/components/SettingsButton";
 import SideBar from "@/components/SideBar";
 import StyledComponentsRegistry from "@/lib/registry";
+
+import CheckRestaurant from "./CheckRestaurant";
 
 const Home = styled.div<{ $close: boolean }>`
   width: ${(props) =>
@@ -16,6 +20,8 @@ const Home = styled.div<{ $close: boolean }>`
   min-height: calc(100dvh - 24px);
 `;
 
+const queryClient = new QueryClient();
+
 export default function DashboardLayout({
   children,
 }: {
@@ -23,16 +29,39 @@ export default function DashboardLayout({
 }) {
   const [close, setClose] = useState<boolean>(false);
 
+  // useEffect(() => {
+  //   async function checkRestaurant() {
+  //     console.log(restaurant);
+  //     if (Object.keys(restaurant).length) return;
+  //     console.log("test");
+  //     const restaurants = (await api.get("/restaurant")).data;
+  //     console.log(restaurants);
+  //     if (restaurants.length) {
+  //       setRestaurant(restaurants[0]);
+  //       return;
+  //     }
+  //     setIsDialogOpen(true);
+  //   }
+  //   checkRestaurant();
+  // });
+
   return (
-    <StyledComponentsRegistry>
-      <SideBar close={close} setClose={setClose} />
-      <Home $close={close} className=" absolute top-0">
-        <div className="mt-6 flex w-full justify-between">
-          <Search />
-          <SettingsButton />
-        </div>
-        {children}
-      </Home>
-    </StyledComponentsRegistry>
+    <QueryClientProvider client={queryClient}>
+      <NextUIProvider>
+        {/* <MantineProvider theme={theme}> */}
+        <StyledComponentsRegistry>
+          <CheckRestaurant />
+          <SideBar close={close} setClose={setClose} />
+          <Home $close={close} className=" absolute top-0">
+            <div className="mt-6 flex w-full justify-between">
+              <Search />
+              <SettingsButton />
+            </div>
+            {children}
+          </Home>
+        </StyledComponentsRegistry>
+        {/* </MantineProvider> */}
+      </NextUIProvider>
+    </QueryClientProvider>
   );
 }

@@ -1,30 +1,85 @@
+"use client";
+
 // import type { Dispatch } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
-import type { SubmitHandler } from "react-hook-form";
+import type { MenuData } from "@repo/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
+import type { FieldError, SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useRestaurantStore } from "@/stores/restaurant";
+import { fetchApi } from "@/utils/fetchApi";
+import { getS3URL } from "@/utils/getS3URL";
+
+import FieldHeader from "./FieldHeader";
+import InputField from "./FieldInput";
 import ImageSelector from "./ImageSelector";
+import Loading from "./Loading";
+import SaveCancelButtons from "./SaveCancelButtons";
 
 export default function NewMenuForm({
-  //   file,
-  //   setFile,
   closeModal,
-  //   onSave,
 }: {
-  //   file: File | string;
-  //   setFile: Dispatch<File | string>;
   closeModal: () => void;
-  //   onSave: () => void;
 }) {
+  const editor = useRef(null);
   const [file, setFile] = useState<File | string>("");
+  const restaurant = useRestaurantStore((state) => state.restaurant);
+  const router = useRouter();
 
   const schema = z.object({
-    menu: z.string().min(1),
+    name: z.string().min(1),
   });
 
-  type ValidationSchemaType = z.infer<typeof schema> & { restaurantId: string };
+  type ValidationSchemaType = MenuData;
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (data: MenuData) => {
+      let s3url = "";
+      if (file) {
+        const url = await getS3URL(router);
+        s3url = url.replace(/\?(.*)/g, "");
+        const imageData = editor.current
+          // @ts-ignore
+          ?.getImage()
+          .toDataURL("image/png") as string;
+        const imageBuffer = await Buffer.from(
+          imageData.replace(/^data:image\/\w+;base64,/, ""),
+          "base64",
+        );
+
+        const uploaded = await axios.put(url, imageBuffer, {
+          headers: { "Content-Type": "image/*" },
+        });
+
+        if (uploaded.status !== 200) {
+          throw new Error("unexpected error happened");
+        }
+      }
+
+      const postData = await fetchApi({
+        url: `restaurant/${restaurant.id}/menu`,
+        method: "post",
+        data: {
+          ...data,
+          ...(s3url && { imageUrl: s3url }),
+        },
+        token: localStorage.getItem("token")!,
+        router,
+      });
+      return postData;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["menus"] });
+      closeModal();
+    },
+  });
 
   const {
     handleSubmit,
@@ -35,43 +90,43 @@ export default function NewMenuForm({
   });
 
   const onSubmit: SubmitHandler<ValidationSchemaType> = (data) => {
-    console.log(data);
-    closeModal();
+    mutation.mutate(data);
   };
 
   return (
     <div className="mx-[45px] mt-16 text-primary">
+      <Loading isOpen={mutation.isPending} />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ImageSelector file={file} setFile={setFile} />
-        <h1 className="mb-3 text-2xl font-bold">Menu name</h1>
-        <div className="rounded-[10px] border border-primary py-3 pl-6">
-          <input
-            type="text"
-            className="h-6 w-full text-[24px]  font-bold text-primary outline-none"
-            {...register("menu")}
-          />
-        </div>
-        {errors.menu && (
+        <ImageSelector file={file} setFile={setFile} editor={editor} />
+        {mutation.error instanceof AxiosError &&
+          ((mutation.error?.response?.data?.errors?.length &&
+            mutation.error.response.data.errors.map(
+              (error: { message: string }) => (
+                <p
+                  className="text-xl font-bold text-red-500"
+                  key={error.message}
+                >
+                  * {error.message}
+                </p>
+              ),
+            )) ||
+            (mutation.error?.response?.data?.message && (
+              <p className="text-xl font-bold text-red-500">
+                * {mutation.error.response.data.message}
+              </p>
+            )) || (
+              <p className="text-xl font-bold text-red-500">
+                * {mutation.error.message}
+              </p>
+            ))}
+        <FieldHeader>Menu name</FieldHeader>
+        <InputField register={register} name="name" />
+        {errors.name && (
           <p className="  text-xl font-bold text-red-500">
-            * {errors.menu?.message}
+            * {(errors.name as FieldError).message}
           </p>
         )}
-        <div className="mb-14 mt-[84px] flex w-full justify-between">
-          <button
-            type="submit"
-            aria-hidden
-            className=" flex h-11 w-[220px] cursor-pointer items-center justify-center rounded-[10px] bg-primary text-white1 outline-none"
-          >
-            <p className="text-2xl">Save</p>
-          </button>
-          <div
-            onClick={closeModal}
-            aria-hidden
-            className="flex h-11 w-[220px] cursor-pointer items-center justify-center rounded-[10px] border border-primary"
-          >
-            <p className="text-2xl  font-bold text-primary">Cancel</p>
-          </div>
-        </div>
+        <SaveCancelButtons closeModal={closeModal} />
       </form>
     </div>
   );

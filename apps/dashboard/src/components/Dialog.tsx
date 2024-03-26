@@ -37,7 +37,7 @@ export default function DialogComponent({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-[545px] overflow-hidden rounded-[44px] bg-white text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="relative w-full max-w-[545px] overflow-hidden rounded-[44px] bg-white text-left align-middle shadow-xl transition-all">
                 {children}
                 {/* <Dialog.Title
                   as="h3"

@@ -1,17 +1,17 @@
 "use client";
 
+import type { ItemData } from "@repo/types";
 import React, { Suspense, useEffect, useState } from "react";
 
 import type { CartItem } from "@/utils/cart";
 import { CartStore } from "@/utils/cart";
-import type { Store } from "@/utils/favourites";
 import { FavStore } from "@/utils/favourites";
 
 import HorzItem from "../HorzItem/HorzItem";
 
 export default function HorzItems({ type }: { type: "cart" | "fav" }) {
   const [cartState, setCart] = useState<CartItem[]>();
-  const [fav, setFav] = useState<Store[]>();
+  const [fav, setFav] = useState<ItemData[]>();
 
   useEffect(() => {
     const tempCart = new CartStore();
@@ -36,7 +36,7 @@ export default function HorzItems({ type }: { type: "cart" | "fav" }) {
           : fav?.map((favItem) => (
               <HorzItem
                 name={favItem.name}
-                price={favItem.price}
+                price={String(favItem.price)}
                 key={favItem.id}
                 image={favItem.imageUrl}
               />

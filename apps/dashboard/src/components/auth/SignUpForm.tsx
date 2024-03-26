@@ -79,12 +79,11 @@ export default function SingUpForm({ text }: { text: string }) {
       localStorage.setItem("refreshToken", response.tokens.refresh.token);
 
       return router.push("/");
-      // eslint-disable-next-line no-console
     } catch (e: any) {
+      // eslint-disable-next-line no-console
       console.log(e);
-      // eslint-disable-next-line no-alert
-      // alert("Submitting form failed!");
     }
+    return null;
   };
 
   return (

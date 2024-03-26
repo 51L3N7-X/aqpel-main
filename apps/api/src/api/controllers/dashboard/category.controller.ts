@@ -1,5 +1,5 @@
 import { Menu } from "../../models/menu";
-import { Category } from "../../models/categorie";
+import { Category } from "../../models/category";
 import { Restaurant } from "../../models/restaurant";
 import { catchAsync } from "../../utils/catchAsync";
 import { RequestWithUser } from "../../../types/controllers";
@@ -7,25 +7,25 @@ import { Response } from "express";
 import { ApiError } from "../../utils/ApiError";
 import httpStatus from "http-status";
 
-export const addCategorie = catchAsync(
+export const addCategory = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const menu = await Menu.findById(req.params.menuId);
-    if (!menu) throw new ApiError(httpStatus.NOT_FOUND, "Menu not found");
-    const restaurant = await Restaurant.findOne({ userId: req.user.id });
-    if (!restaurant)
-      throw new ApiError(httpStatus.NOT_FOUND, "restaruant not found.");
-
-    const categorie = await new Category({
+    const menu = await Menu.findOne({
+      _id: req.params.menuId,
       userId: req.user.id,
-      menuId: req.params.menuId,
-      restaurant_id: restaurant._id,
+    });
+    if (!menu) throw new ApiError(httpStatus.NOT_FOUND, "Menu not found");
+
+    const category = await new Category({
+      userId: req.user.id,
+      menuId: menu._id,
+      restaurant_id: req.params.restaurantId,
       ...req.body,
     });
 
-    menu.categories.push(categorie._id);
-    await categorie.save();
+    menu.categories.push(category._id);
+    await category.save();
     await menu.save();
-    return res.status(httpStatus.OK).json(categorie);
+    return res.status(httpStatus.CREATED).send(category);
   }
 );
 
@@ -34,55 +34,56 @@ export const getCategories = catchAsync(
     const categories = await Category.find({
       menuId: req.params.menuId,
       userId: req.user.id,
-    }).populate("items");
-    return res.status(httpStatus.OK).json(categories || {});
-  }
-);
-
-export const getIndivCategorie = catchAsync(
-  async (req: RequestWithUser, res: Response) => {
-    const categorie = await Category.findOne({
-      userId: req.user.id,
-      _id: req.params.categorieId,
     });
-    return res.status(httpStatus.OK).json(categorie || {});
+    if (!categories.length) throw new ApiError(404, "Categories not found");
+    return res.status(httpStatus.OK).send(categories);
   }
 );
 
-export const modifyCategorie = catchAsync(
+export const getIndivCategory = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const categorie = await Category.findOneAndUpdate(
-      { _id: req.params.categorieId, userId: req.user.id },
-      req.body,
-      { new: true }
-    );
-    if (!categorie)
+    const category = await Category.findOne({
+      userId: req.user.id,
+      _id: req.params.categoryId,
+    });
+    if (!category) throw new ApiError(404, "Category not found");
+    return res.send(category);
+  }
+);
+
+export const modifyCategory = catchAsync(
+  async (req: RequestWithUser, res: Response) => {
+    const category = await Category.findOne({
+      _id: req.params.categoryId,
+      userId: req.user.id,
+    });
+    if (!category)
       throw new ApiError(httpStatus.NOT_FOUND, "category not found.");
-    return res
-      .status(httpStatus.OK)
-      .json({ success: true, ...categorie.toObject() });
+    Object.assign(category, req.body);
+    await category.save();
+    res.send(category);
   }
 );
 
-export const deleteCategorie = catchAsync(
+export const deleteCategory = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const categoire = await Category.findOne({
-      _id: req.params.categorieId,
+    const category = await Category.findOne({
+      _id: req.params.categoryId,
       userId: req.user.id,
     }).populate("items");
 
-    if (!categoire)
+    if (!category)
       throw new ApiError(httpStatus.NOT_FOUND, "category not found.");
 
-    for (let item of categoire.items) {
+    for (let item of category.items) {
       //@ts-ignore
       await item.deleteOne();
     }
 
-    await categoire.deleteOne();
+    await category.deleteOne();
     await Menu.updateOne(
       { _id: req.params.menuId },
-      { $pull: { categories: req.params.categorieId } }
+      { $pull: { categories: req.params.categoryId } }
     );
     return res.status(httpStatus.NO_CONTENT).send();
   }

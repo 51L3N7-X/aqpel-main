@@ -189,7 +189,7 @@ describe("Auth routes", () => {
       await insertUsers([tempUser]);
 
       const loginCredentials = {
-        userNameOrEmail: tempUser.username,
+        email: tempUser.email,
         password: tempUser.password,
       };
 
@@ -380,13 +380,10 @@ describe("Auth routes", () => {
         tokenTypes.REFRESH
       );
 
-      const res = await request(app)
+      await request(app)
         .post("/v1/auth/refresh-tokens")
-        .send({ refreshToken });
-      // .expect(httpStatus.UNAUTHORIZED);
-
-      console.log(res.body);
-      console.log(res.status);
+        .send({ refreshToken })
+        .expect(httpStatus.UNAUTHORIZED);
     });
 
     test("should return 401 error if the token is not found in the database", async () => {

@@ -15,7 +15,7 @@ const verifyCallback =
     info: object | string | Array<string | undefined>
   ) => {
     if (err || info || !user) {
-      if (info.toString().includes("TokenExpiredError"))
+      if (info?.toString().includes("TokenExpiredError"))
         return reject(new ApiError(httpStatus.UNAUTHORIZED, "expired"));
       return reject(
         new ApiError(httpStatus.UNAUTHORIZED, "Please authenticate")

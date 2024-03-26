@@ -103,7 +103,7 @@ export default function Item({ item }: { item: ItemData }) {
         <div className="fotter flex h-4 w-24 items-center justify-between ">
           {item.people && (
             <PeopleText className="text-[8px] text-[#6E6E70]">
-              {item.people} {item.people > "1" ? "Persons" : "Person"}
+              {item.people} {item.people > 1 ? "Persons" : "Person"}
             </PeopleText>
           )}
           <p className="ml-auto text-[10px] font-semibold text-[#FFCC36]">

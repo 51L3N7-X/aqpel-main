@@ -2,10 +2,10 @@ export type ItemArray = Array<ItemData>;
 
 export interface ItemData {
   name: string;
-  price: string;
+  price: number;
   description?: string;
-  calories?: string;
-  people?: string;
+  calories?: number;
+  people?: number;
   new?: boolean;
   special?: boolean;
   imageUrl?: string;
@@ -25,20 +25,21 @@ export interface TableData {
 }
 
 export interface MenuData {
-  restaurant_name?: string;
   name: string | any;
+  id: string;
+  imageUrl: string;
 }
 
 export interface CategoryData {
   id: string;
   name: string;
-  imageUrl: string;
-  description: string;
+  imageUrl?: string;
+  description?: string;
 }
 
 export interface RestaurantData {
-  name?: string;
-  id?: string;
+  name: string;
+  id: string;
   description?: string;
 }
 

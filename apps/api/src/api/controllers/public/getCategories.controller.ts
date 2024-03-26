@@ -1,5 +1,5 @@
 import { RequestWithUser } from "../../../types/controllers";
-import { Category } from "../../models/categorie";
+import { Category } from "../../models/category";
 import { catchAsync } from "../../utils/catchAsync";
 import { Response } from "express";
 

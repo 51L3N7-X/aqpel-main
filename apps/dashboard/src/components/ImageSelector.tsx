@@ -10,6 +10,8 @@ import AvatarEditor from "react-avatar-editor";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 
+import ReplaceRemoveButtons from "./ReplaceRemoveButtons";
+
 const getColor = (props: any) => {
   if (props.isDragAccept) {
     return "#00e676";
@@ -31,9 +33,11 @@ const Container = styled.div<{ $edit: boolean }>`
 export default function ImageSelector({
   file,
   setFile,
+  editor,
 }: {
   file: File | string;
   setFile: Dispatch<File | string>;
+  editor: any;
 }) {
   const {
     getRootProps,
@@ -70,7 +74,7 @@ export default function ImageSelector({
               image={file}
               borderRadius={999}
               scale={size / 10}
-              //   ref={editor}
+              ref={editor}
               // color={[255, 255, 255]}
               // backgroundColor="transparent"
               style={{ width: "250px", height: "250px" }}
@@ -134,22 +138,7 @@ export default function ImageSelector({
           </>
         )}
       </Container>
-      <div className="mx-auto mb-5 flex max-w-[382px] flex-row space-x-[14px]">
-        <div
-          className=" flex h-11 w-[184px] cursor-pointer items-center justify-center rounded-[10px] bg-primary text-[22px] font-bold text-white1"
-          onClick={open}
-          aria-hidden
-        >
-          Replace
-        </div>
-        <div
-          className="flex h-11 w-[184px] cursor-pointer items-center  justify-center rounded-[10px] border border-primary text-[22px] font-bold text-primary"
-          onClick={() => setFile("")}
-          aria-hidden
-        >
-          Remove
-        </div>
-      </div>
+      <ReplaceRemoveButtons onReplace={open} onCancel={() => setFile("")} />
     </div>
   );
 }

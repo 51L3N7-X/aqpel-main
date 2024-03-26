@@ -1,35 +1,24 @@
 "use client";
 
+import type { MenuData } from "@repo/types";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import AddItem from "@/components/auth/AddItem";
 import DialogComponent from "@/components/Dialog";
+import Item from "@/components/Item";
 import ItemsContainer from "@/components/ItemsContainer";
 import NewMenuForm from "@/components/NewMenuForm";
+import { useRestaurantStore } from "@/stores/restaurant";
+import { fetchApi } from "@/utils/fetchApi";
 
 export default function Menu() {
+  const restaurant = useRestaurantStore((state) => state.restaurant);
   const [isOpen, setIsOpen] = useState(false);
-  // const editor = useRef(null);
-  // const [src, setSrc] = useState("");
-
-  // const getImageUrl = async () => {
-  //   const dataUrl = editor.current?.getImage().toBlob((data) => {
-  //     console.log(data);
-  //   });
-  //   console.log(dataUrl);
-  //   const res = await fetch(dataUrl);
-  //   // res.
-  //   const blob = await res.blob();
-
-  //   console.log(blob);
-
-  //   return window.URL.createObjectURL(blob);
-  // };
-
-  // Usage
+  const router = useRouter();
 
   const closeModal = () => {
-    // setFile("");
     setIsOpen(false);
   };
 
@@ -37,24 +26,32 @@ export default function Menu() {
     setIsOpen(true);
   };
 
-  // const onSave = () => {
-  //   alert();
-  //   // console.log(editor.current?.getImage());
-  //   // getImageUrl().then((image) => setSrc(image));
-  // };
-
+  const { isLoading, data: Menus } = useQuery({
+    queryKey: ["menus", restaurant.id],
+    queryFn: async (): Promise<MenuData[]> => {
+      try {
+        const data = await fetchApi({
+          url: `/restaurant/${restaurant.id}/menu`,
+          method: "get",
+          router,
+          token: localStorage.getItem("token")!,
+        });
+        return data;
+      } catch (e: any) {
+        if (e.response.data.code === 404) return [];
+        throw e;
+      }
+    },
+  });
   return (
-    <div>
+    <div className="relative">
       <ItemsContainer>
-        <AddItem text="Add a menu" onClick={openModal} />
+        <AddItem text="Add menu" onClick={openModal} />
+        {isLoading && <h1 className="text-primary">Loading...</h1>}
+        {Menus && Menus.map((menu) => <Item data={menu} key={menu.id} />)}
       </ItemsContainer>
       <DialogComponent onClose={closeModal} isOpen={isOpen}>
-        <NewMenuForm
-          // file={file}
-          // setFile={setFile}
-          closeModal={closeModal}
-          // onSave={onSave}
-        />
+        <NewMenuForm closeModal={closeModal} />
       </DialogComponent>
     </div>
   );

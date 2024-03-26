@@ -13,5 +13,5 @@ router.use(auth());
 
 router.post("/", addKitchen);
 router.get("/", getTheKitchen);
-router.put("/", modifyKitchen);
+router.patch("/", modifyKitchen);
 router.delete("/", deleteKitchen);

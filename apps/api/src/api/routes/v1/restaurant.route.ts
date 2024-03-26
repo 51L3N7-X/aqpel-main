@@ -5,16 +5,15 @@ import {
   getMenus,
   deleteMenu,
   modifyMenu,
+  getIndivMenu,
 } from "../../controllers/dashboard/menu.controller";
 
-import { verifyToken } from "../../middlewares/verifyToken";
-
 import {
-  addCategorie,
+  addCategory,
   getCategories,
-  getIndivCategorie,
-  modifyCategorie,
-  deleteCategorie,
+  getIndivCategory,
+  modifyCategory,
+  deleteCategory,
 } from "../../controllers/dashboard/category.controller";
 
 import {
@@ -27,56 +26,112 @@ import {
 
 import {
   addRestaurant,
-  getRestaurant,
+  getRestaurants,
   modifyRestaurant,
   deleteRestaurant,
+  getIndividualRestaurant,
 } from "../../controllers/dashboard/restaurant.controller";
 import { auth } from "../../middlewares/auth";
+import { validate } from "../../middlewares/validate";
+import {
+  categoryCreateValidate,
+  categoryDeleteValidate,
+  categoryGetValidate,
+  categoryModifyValidate,
+  menuCreateValidate,
+  menuDeleteValidate,
+  menuGetValidate,
+  menuModifyValidate,
+  restaurantGetOrDeleteValidate,
+  restaurantUpdateValidate,
+  restaurantCreateValidate,
+  itemCreateValidate,
+  itemGetValidate,
+  itemModifyValidate,
+} from "../../validations/public";
 
 router.use(auth());
 
-router.post("/", addRestaurant);
-router.get("/", getRestaurant);
-router.put("/", modifyRestaurant);
-router.delete("/", deleteRestaurant);
-
-router.post("/:restaurantId/menu", addMenu);
-router.get("/:restaurantId/menu", getMenus);
-router.put("/:restaurantId/menu", modifyMenu);
-router.delete("/:restaurantId/menu", deleteMenu);
-
-router.post("/:restaurantId/menu/:menuId/categories", addCategorie);
-router.get("/:restaurantId/menu/:menuId/categories", getCategories);
+//restaurant
+router.post("/", validate(restaurantCreateValidate), addRestaurant);
+router.get("/", getRestaurants);
 router.get(
-  "/:restaurantId/menu/:menuId/categories/:categorieId",
-  getIndivCategorie
+  "/:restaurantId",
+  validate(restaurantGetOrDeleteValidate),
+  getIndividualRestaurant
 );
-router.put(
-  "/:restaurantId/menu/:menuId/categories/:categorieId",
-  modifyCategorie
+router.patch(
+  "/:restaurantId",
+  validate(restaurantUpdateValidate),
+  modifyRestaurant
 );
 router.delete(
-  "/:restaurantId/menu/:menuId/categories/:categorieId",
-  deleteCategorie
+  "/:restaurantId",
+  validate(restaurantGetOrDeleteValidate),
+  deleteRestaurant
 );
 
+//menus
+router.post("/:restaurantId/menu", validate(menuCreateValidate), addMenu);
+router.get("/:restaurantId/menu", getMenus);
+router.get(
+  "/:restaurantId/menu/:menuId",
+  validate(menuGetValidate),
+  getIndivMenu
+);
+router.patch(
+  "/:restaurantId/menu/:menuId",
+  validate(menuModifyValidate),
+  modifyMenu
+);
+router.delete(
+  "/:restaurantId/menu/:menuId",
+  validate(menuDeleteValidate),
+  deleteMenu
+);
+
+//categories
 router.post(
-  "/:restaurantId/menu/:menuId/categories/:categorieId/items",
+  "/:restaurantId/menu/:menuId/category",
+  validate(categoryCreateValidate),
+  addCategory
+);
+router.get("/:restaurantId/menu/:menuId/category", getCategories);
+router.get(
+  "/:restaurantId/menu/:menuId/category/:categoryId",
+  validate(categoryGetValidate),
+  getIndivCategory
+);
+router.patch(
+  "/:restaurantId/menu/:menuId/category/:categoryId",
+  validate(categoryModifyValidate),
+  modifyCategory
+);
+router.delete(
+  "/:restaurantId/menu/:menuId/category/:categoryId",
+  validate(categoryDeleteValidate),
+  deleteCategory
+);
+
+//items
+router.post(
+  "/:restaurantId/menu/:menuId/category/:categoryId/item",
+  validate(itemCreateValidate),
   addItem
 );
+router.get("/:restaurantId/menu/:menuId/category/:categoryId/item", getItems);
 router.get(
-  "/:restaurantId/menu/:menuId/categories/:categorieId/items",
-  getItems
-);
-router.get(
-  "/:restaurantId/menu/:menuId/categories/:categorieId/items/:itemId",
+  "/:restaurantId/menu/:menuId/category/:categoryId/item/:itemId",
+  validate(itemGetValidate),
   getIndivItem
 );
-router.put(
-  "/:restaurantId/menu/:menuId/categories/:categorieId/items/:itemId",
+router.patch(
+  "/:restaurantId/menu/:menuId/category/:categoryId/item/:itemId",
+  validate(itemModifyValidate),
   modifyItem
 );
 router.delete(
-  "/:restaurantId/menu/:menuId/categories/:categorieId/items/:itemId",
+  "/:restaurantId/menu/:menuId/category/:categoryId/item/:itemId",
+  validate(itemGetValidate),
   deleteItem
 );

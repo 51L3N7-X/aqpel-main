@@ -1,28 +1,30 @@
 import { Item } from "../../models/item";
-import { Category } from "../../models/categorie";
+import { Category } from "../../models/category";
 import { Restaurant } from "../../models/restaurant";
 import { catchAsync } from "../../utils/catchAsync";
 import { RequestWithUser } from "../../../types/controllers";
 import { Response } from "express";
 import { ApiError } from "../../utils/ApiError";
+import httpStatus from "http-status";
 
 export const addItem = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const restaurant = await Restaurant.findOne({ userId: req.user.id });
-    if (!restaurant) throw new ApiError(404, "Restaurnat not found.");
-    const categorie = await Category.findById(req.params.categorieId);
-    if (!categorie) throw new Error("Categoire not found");
-    const item = await new Item({
+    const category = await Category.findOne({
       userId: req.user.id,
-      menuId: req.params.menuId,
-      categorieId: req.params.categorieId,
-      restaurant_id: restaurant._id,
+      _id: req.params.categoryId,
+    });
+    if (!category)
+      throw new ApiError(httpStatus.NOT_FOUND, "Category not found");
+    const item = new Item({
+      userId: req.user.id,
+      categoryId: req.params.categoryId,
       ...req.body,
     });
-    categorie.items.push(item._id);
-    await categorie.save();
+
+    category.items.push(item._id);
     await item.save();
-    return res.status(200).json(item);
+    await category.save();
+    res.status(201).send(item);
   }
 );
 
@@ -32,7 +34,8 @@ export const getIndivItem = catchAsync(
       _id: req.params.itemId,
       userId: req.user.id,
     });
-    return res.status(200).json(item || {});
+    if (!item) throw new ApiError(httpStatus.NOT_FOUND, "Item not found");
+    return res.send(item);
   }
 );
 
@@ -40,21 +43,24 @@ export const getItems = catchAsync(
   async (req: RequestWithUser, res: Response) => {
     const items = await Item.find({
       userId: req.user.id,
-      categorieId: req.params.categorieId,
+      categoryId: req.params.categoryId,
     });
-    return res.status(200).json(items || {});
+    if (!items.length)
+      throw new ApiError(httpStatus.NOT_FOUND, "Items not found");
+    return res.send(items);
   }
 );
 
 export const modifyItem = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const item = await Item.findOneAndUpdate(
-      { _id: req.params.itemId, userId: req.user.id },
-      req.body,
-      { new: true }
-    );
-    if (!item) throw new ApiError(404, "item not found.");
-    return res.status(200).json({ success: true, ...item.toObject() });
+    const item = await Item.findOne({
+      userId: req.user.id,
+      _id: req.params.itemId,
+    });
+    if (!item) throw new ApiError(httpStatus.NOT_FOUND, "Item not found");
+    Object.assign(item, req.body);
+    await item.save();
+    return res.send(item);
   }
 );
 
@@ -65,7 +71,7 @@ export const deleteItem = catchAsync(
       userId: req.user.id,
     });
     await Category.updateOne(
-      { _id: req.params.categorieId },
+      { _id: req.params.categoryId },
       { $pull: { items: req.params.itemId } }
     );
     return res.send({ success: true });

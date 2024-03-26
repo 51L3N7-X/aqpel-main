@@ -2,8 +2,9 @@ import { CustomHelpers } from "joi";
 
 export const objectId = (value: string, helpers: CustomHelpers) => {
   if (!value.match(/^[0-9a-fA-F]{24}$/)) {
-    //@ts-ignore
-    return helpers.message('"{{#label}}" must be a valid mongo id');
+    return helpers.message({
+      custom: '"{{#label}}" must be a valid mongo id',
+    });
   }
   return value;
 };
@@ -22,4 +23,4 @@ export const password = (value: string, helpers: CustomHelpers) => {
   return value;
 };
 
-export const phone = (value: string, helpers: CustomHelpers) => {};
+// export const phone = (value: string, helpers: CustomHelpers) => {};

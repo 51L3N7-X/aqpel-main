@@ -52,6 +52,7 @@ module.exports = {
     "@typescript-eslint/indent": "off",
     "react/jsx-one-expression-per-line": "off",
     "operator-linebreak": "off",
+    "no-param-reassign": ["error", { props: false }],
   },
   globals: {
     React: true,

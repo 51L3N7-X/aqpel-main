@@ -5,10 +5,10 @@ import { Token } from "../models/token";
 import { ApiError } from "../utils/ApiError";
 import { config } from "../config/config";
 import { tokenTypes } from "../constants/tokens";
-import { ObjectId } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 export const generateToken = (
-  userId: string | ObjectId,
+  userId: mongoose.Types.ObjectId,
   expires: Moment,
   type: string,
   secret: string = config.jwt.secret

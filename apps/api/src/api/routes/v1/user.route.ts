@@ -14,5 +14,5 @@ router.use(auth());
 
 // main requests for user
 router.get("/", getUser);
-router.put("/", modifyUser);
+router.patch("/", modifyUser);
 router.delete("/", deleteUser);

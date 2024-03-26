@@ -17,5 +17,5 @@ router.use(auth());
 router.post("/", addTable);
 router.get("/", getTables);
 router.get("/:tableId", getIndivTable);
-router.put("/:tableId", modifyTable);
+router.patch("/:tableId", modifyTable);
 router.delete("/:tableId", deleteTable);

@@ -31,6 +31,15 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "aqpel.s3.eu-north-1.amazonaws.com",
+        port: "",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

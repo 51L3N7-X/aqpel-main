@@ -3,39 +3,54 @@ import { RequestWithUser } from "../../../types/controllers";
 import { Restaurant } from "../../models/restaurant";
 import { catchAsync } from "../../utils/catchAsync";
 import { ApiError } from "../../utils/ApiError";
+import httpStatus from "http-status";
+import { updateRestaurantById } from "../../services/restaurant.service";
 
 export const addRestaurant = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const check = await Restaurant.findOne({ userId: req.user.id });
+    // const check = await Restaurant.findOne({ userId: req.user.id });
 
-    if (check) throw new ApiError(409, "Restaurant Created Already");
+    // if (check) throw new ApiError(409, "Restaurant Created Already");
     const restaurant = await new Restaurant({
       userId: req.user.id,
       ...req.body,
     });
     await restaurant.save();
+    return res.status(httpStatus.CREATED).json(restaurant);
+  }
+);
+
+export const getRestaurants = catchAsync(
+  async (req: RequestWithUser, res: Response) => {
+    const restaurant = await Restaurant.find({
+      userId: req.user.id,
+    });
+    if (!restaurant)
+      throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
     return res.status(200).json(restaurant);
   }
 );
 
-export const getRestaurant = catchAsync(
+export const getIndividualRestaurant = catchAsync(
   async (req: RequestWithUser, res: Response) => {
     const restaurant = await Restaurant.findOne({
+      _id: req.params.restaurantId,
       userId: req.user.id,
-    }).populate("menu");
-    return res.status(200).json(restaurant || {});
+    });
+    if (!restaurant)
+      throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
+    return res.status(200).json(restaurant);
   }
 );
 
 export const modifyRestaurant = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const restaurant = await Restaurant.findOneAndUpdate(
-      { userId: req.user.id },
-      req.body,
-      { new: true }
+    const restaurant = await updateRestaurantById(
+      req.params.restaurantId,
+      req.user.id,
+      req.body
     );
-    if (!restaurant) throw new ApiError(404, "restaurant not found.");
-    return res.status(200).json({ success: true, ...restaurant.toObject() });
+    return res.send(restaurant);
   }
 );
 
@@ -43,6 +58,7 @@ export const deleteRestaurant = catchAsync(
   async (req: RequestWithUser, res: Response) => {
     const restaurant = await Restaurant.findOne({
       userId: req.user.id,
+      _id: req.params.restaurantId,
     }).populate({
       path: "menus",
       populate: {
@@ -59,13 +75,13 @@ export const deleteRestaurant = catchAsync(
         //@ts-ignore
         if (menu.categories) {
           //@ts-ignore
-          for (let categoire of menu.categories) {
-            if (categoire.items) {
-              for (let item of categoire.items) {
+          for (let category of menu.categories) {
+            if (category.items) {
+              for (let item of category.items) {
                 await item.deleteOne();
               }
             }
-            await categoire.deleteOne();
+            await category.deleteOne();
           }
         }
 

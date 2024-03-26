@@ -4,17 +4,14 @@ import { Menu } from "../../models/menu";
 import { Restaurant } from "../../models/restaurant";
 import { catchAsync } from "../../utils/catchAsync";
 import { ApiError } from "../../utils/ApiError";
+import httpStatus from "http-status";
 
 export const addMenu = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const check = await Menu.findOne({
-      restaurantId: req.params.restaurantId,
+    const restaurant = await Restaurant.findOne({
       userId: req.user.id,
+      _id: req.params.restaurantId,
     });
-
-    if (check) throw new ApiError(409, "Menu Created Already");
-
-    const restaurant = await Restaurant.findById(req.params.restaurantId);
 
     if (!restaurant) throw new ApiError(404, "Restaurant not found.");
 
@@ -29,7 +26,7 @@ export const addMenu = catchAsync(
     await menu.save();
     await restaurant.save();
 
-    return res.status(200).json(menu);
+    return res.status(httpStatus.CREATED).send(menu);
   }
 );
 
@@ -39,19 +36,35 @@ export const getMenus = catchAsync(
       restaurantId: req.params.restaurantId,
       userId: req.user.id,
     });
-    return res.status(200).json(menu || {});
+
+    if (!menu.length) throw new ApiError(404, "Menu not found");
+    return res.status(200).json(menu);
+  }
+);
+
+export const getIndivMenu = catchAsync(
+  async (req: RequestWithUser, res: Response) => {
+    const menu = await Menu.findOne({
+      userId: req.user.id,
+      _id: req.params.menuId,
+      restaurantId: req.params.restaurantId,
+    });
+    if (!menu) throw new ApiError(httpStatus.NOT_FOUND, "Menu not found");
+    return res.send(menu);
   }
 );
 
 export const modifyMenu = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const menu = await Menu.findOneAndUpdate(
-      { restaurantId: req.params.restaurantId, userId: req.user.id },
-      req.body,
-      { new: true }
-    );
+    const menu = await Menu.findOne({
+      restaurantId: req.params.restaurantId,
+      userId: req.user.id,
+      _id: req.params.menuId,
+    });
     if (!menu) throw new ApiError(404, "menu not found.");
-    return res.status(200).json({ success: true, ...menu.toObject() });
+    Object.assign(menu, req.body);
+    await menu.save();
+    return res.send(menu);
   }
 );
 
@@ -69,13 +82,13 @@ export const deleteMenu = catchAsync(
 
     if (!menu) throw new ApiError(404, "Menu not found.");
 
-    for (let categoire of menu.categories) {
+    for (let category of menu.categories) {
       //@ts-ignore
-      for (let item of categoire.items) {
+      for (let item of category.items) {
         await item.deleteOne();
       }
       //@ts-ignore
-      await categoire.deleteOne();
+      await category.deleteOne();
     }
 
     await menu.deleteOne();

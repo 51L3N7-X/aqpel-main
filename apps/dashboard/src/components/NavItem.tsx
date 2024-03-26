@@ -38,7 +38,7 @@ export default function NavItem({
       <Container
         $selected={path === href}
         // eslint-disable-next-line tailwindcss/classnames-order
-        className="hover:bg-secondary flex h-[52px] flex-row items-center space-x-3 rounded-md  px-8 text-white1"
+        className="flex h-[52px] flex-row items-center space-x-3 rounded-md px-8  text-white1 hover:bg-secondary"
       >
         <Image
           className="size-6"
