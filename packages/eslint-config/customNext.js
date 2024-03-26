@@ -43,7 +43,7 @@ module.exports = {
     "unused-imports/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     quotes: "off",
     "@typescript-eslint/quotes": "off",
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style": "off",
     "no-confusing-arrow": "off",
     "implicit-arrow-linebreak": "off",
     "react/jsx-curly-newline": "off",
