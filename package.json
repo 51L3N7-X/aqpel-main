@@ -19,6 +19,7 @@
     "lint": "turbo lint"
   },
   "dependencies": {
+    "node": "^21.7.1",
     "node-pre-gyp": "^0.17.0"
   }
 }
