@@ -2,14 +2,15 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { FieldError } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import type { SignUpFormData, ValidSignUpFieldNames } from "types";
 
-import EmailIcon from "@/public/EmailIcon.svg";
-import PasswordIcon from "@/public/PasswordIcon.svg";
-import UserIcon from "@/public/UserIcon.svg";
+// import EmailIcon from "@/public/EmailIcon.svg";
+// import PasswordIcon from "@/public/PasswordIcon.svg";
+// import UserIcon from "@/public/UserIcon.svg";
 import { SignUpUserSchema } from "@/validations/auth";
 
 import SignUpFormField from "./SignUpFormField";
@@ -97,7 +98,7 @@ export default function SingUpForm({ text }: { text: string }) {
             register={register}
             error={errors.email}
           />
-          <EmailIcon />
+          <Image src="/EmailIcon.svg" alt="email icon" width={26} height={26} />
         </FormContainer>
 
         <FormContainer error={errors.username}>
@@ -108,7 +109,7 @@ export default function SingUpForm({ text }: { text: string }) {
             register={register}
             error={errors.username}
           />
-          <UserIcon />
+          <Image src="/UserIcon.svg" alt="user icon" width={26} height={26} />
         </FormContainer>
 
         <FormContainer error={errors.password}>
@@ -119,7 +120,12 @@ export default function SingUpForm({ text }: { text: string }) {
             register={register}
             error={errors.password}
           />
-          <PasswordIcon />
+          <Image
+            src="/PasswordIcon.svg"
+            alt="user icon"
+            width={26}
+            height={26}
+          />
         </FormContainer>
 
         <button
