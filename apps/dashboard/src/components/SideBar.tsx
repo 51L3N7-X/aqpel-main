@@ -5,8 +5,6 @@ import type { Dispatch } from "react";
 import React from "react";
 import styled from "styled-components";
 
-import Arrow from "@/public/Arrow.svg";
-
 import NavItem from "./NavItem";
 
 const NavItems: {
@@ -106,7 +104,7 @@ export default function SideBar({
         onClick={() => setClose((state: any) => !state)}
         $close={close}
       >
-        <Arrow />
+        <Image src="/Arrow.svg" alt="Arrow" width={24} height={24} />
       </CloseButton>
 
       {NavItems.map((item) => (
