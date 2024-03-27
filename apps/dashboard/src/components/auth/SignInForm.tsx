@@ -25,7 +25,7 @@ function FormContainer({
         {children}
       </div>
       <hr className=" block w-full border-solid border-primary" />
-      {error && <span className=" text-red-600">{error.message}</span>}
+      {error && <span className=" text-red-600">{error.message} </span>}
     </div>
   );
 }
