@@ -104,7 +104,13 @@ export default function SideBar({
         onClick={() => setClose((state: any) => !state)}
         $close={close}
       >
-        <Image src="/Arrow.svg" alt="Arrow" width={24} height={24} />
+        <Image
+          src="/Arrow.svg"
+          alt="Arrow"
+          width={24}
+          height={24}
+          style={{ width: "24px", height: "24px" }}
+        />
       </CloseButton>
 
       {NavItems.map((item) => (
