@@ -4,12 +4,13 @@ import { auth } from "../../middlewares/auth";
 
 import { router as userRouter } from "./user.route";
 import { router as restaurantRouter } from "./restaurant.route";
-import { router as tableRouter } from "./table.route";
 import { router as waiterRouter } from "./waiter.route";
 import { router as kitchenRouter } from "./kitchen.route";
 import { router as publicRouter } from "./public.route";
 import { router as appRouter } from "./app.route";
 import { router as authRouter } from "./auth.route";
+import { router as floorRouter } from "./floor.route";
+
 import { getUrl } from "../../controllers/dashboard/getS3Url";
 
 const defaultRouters = [
@@ -26,8 +27,8 @@ const defaultRouters = [
     route: restaurantRouter,
   },
   {
-    path: "/tables",
-    route: tableRouter,
+    path: "/floor",
+    route: floorRouter,
   },
   {
     path: "/waiters",

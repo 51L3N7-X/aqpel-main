@@ -29,22 +29,6 @@ export default function DashboardLayout({
 }) {
   const [close, setClose] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   async function checkRestaurant() {
-  //     console.log(restaurant);
-  //     if (Object.keys(restaurant).length) return;
-  //     console.log("test");
-  //     const restaurants = (await api.get("/restaurant")).data;
-  //     console.log(restaurants);
-  //     if (restaurants.length) {
-  //       setRestaurant(restaurants[0]);
-  //       return;
-  //     }
-  //     setIsDialogOpen(true);
-  //   }
-  //   checkRestaurant();
-  // });
-
   return (
     <QueryClientProvider client={queryClient}>
       <NextUIProvider>

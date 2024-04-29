@@ -3,7 +3,15 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["toppng.com", "loremflickr.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "aqpel.*.amazonaws.com",
+        port: "",
+      },
+    ],
   },
+
   compiler: {
     styledComponents: true,
   },

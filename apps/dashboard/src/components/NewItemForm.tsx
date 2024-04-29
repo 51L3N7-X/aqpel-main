@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ItemData } from "@repo/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
@@ -16,6 +16,7 @@ import { getS3URL } from "@/utils/getS3URL";
 
 import FieldHeader from "./FieldHeader";
 import InputField from "./FieldInput";
+import FormErrors from "./FormErrors";
 import ImageSelector from "./ImageSelector";
 import Loading from "./Loading";
 import SaveCancelButtons from "./SaveCancelButtons";
@@ -36,10 +37,10 @@ export default function NewItemForm({
 
   const schema = z.object({
     name: z.string().min(1),
-    price: z.string().min(1).max(3),
+    price: z.number().min(1).max(999),
     description: z.string().max(300),
-    calories: z.string().max(3),
-    people: z.string().max(3),
+    calories: z.number().max(3),
+    people: z.number().max(3),
     // new: z.boolean(),
     // special: z.boolean(),
     // ingredients: z.string(),
@@ -108,28 +109,11 @@ export default function NewItemForm({
       <Loading isOpen={mutation.isPending} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <ImageSelector file={file} setFile={setFile} editor={editor} />
-        {mutation.error instanceof AxiosError &&
-          ((mutation.error?.response?.data?.errors?.length &&
-            mutation.error.response.data.errors.map(
-              (error: { message: string }) => (
-                <p
-                  className="text-xl font-bold text-red-500"
-                  key={error.message}
-                >
-                  * {error.message}
-                </p>
-              ),
-            )) ||
-            (mutation.error?.response?.data?.message && (
-              <p className="text-xl font-bold text-red-500">
-                * {mutation.error.response.data.message}
-              </p>
-            )) || (
-              <p className="text-xl font-bold text-red-500">
-                * {mutation.error.message}
-              </p>
-            ))}
+
+        <FormErrors mutation={mutation} />
+
         <FieldHeader>Item name</FieldHeader>
+
         <InputField register={register} name="name" />
         {errors.name && (
           <p className="text-xl font-bold text-red-500">

@@ -14,15 +14,19 @@ export function Items() {
 
   const getItems = async () => {
     // eslint-disable-next-line
-    const { restaurant_id } = JSON.parse(localStorage.getItem("table")!);
+    const { restaurantId } = JSON.parse(localStorage.getItem("table")!);
 
-    localStorage.setItem("restaurant_id", restaurant_id);
+    localStorage.setItem("restaurantId", restaurantId);
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/${restaurant_id}/items`,
+      `${process.env.NEXT_PUBLIC_API_URL}/${restaurantId}/items`,
     );
 
+    console.log(response);
+
     const data = await response.json();
+
+    console.log(data);
 
     return data;
   };
@@ -31,6 +35,8 @@ export function Items() {
     queryKey: ["items"],
     queryFn: getItems,
   });
+
+  console.log(data);
 
   if (isLoading) return <div>Loading..</div>;
 
@@ -41,8 +47,8 @@ export function Items() {
       </p>
       <Suspense fallback={<div>loading...</div>}>
         <div className="items relative mx-auto gap-y-6 rounded-lg pb-20 pt-2">
-          {data ? (
-            data.map((item: ItemData) => (
+          {data && Object.keys(data).length && !(data.code === 404) ? (
+            data?.map((item: ItemData) => (
               <Link
                 href={`${pathname}/${item.id}`}
                 key={`${item.id}${Math.random()}`}

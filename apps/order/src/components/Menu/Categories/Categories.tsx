@@ -14,12 +14,12 @@ export default function Categories() {
   // }
   const getCategories = async () => {
     // eslint-disable-next-line
-    const { restaurant_id } = JSON.parse(localStorage.getItem("table")!);
+    const { restaurantId } = JSON.parse(localStorage.getItem("table")!);
 
-    localStorage.setItem("restaurant_id", restaurant_id);
+    localStorage.setItem("restaurantId", restaurantId);
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/${restaurant_id}/categories`,
+      `${process.env.NEXT_PUBLIC_API_URL}/${restaurantId}/categories`,
     );
 
     const data = await response.json();
@@ -41,13 +41,15 @@ export default function Categories() {
       {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
       <div className="categoriesItems mx-auto flex items-center justify-start gap-x-2 overflow-x-scroll pb-1">
         <CategorieItem name="All" />
-        {data.map((category: CategoryData) => (
-          <CategorieItem
-            name={category.name}
-            key={category.id}
-            imageURL={category.imageUrl}
-          />
-        ))}
+        {data &&
+          Object.keys(data).length &&
+          data.map((category: CategoryData) => (
+            <CategorieItem
+              name={category.name}
+              key={category.id}
+              imageURL={category.imageUrl}
+            />
+          ))}
       </div>
     </>
   );

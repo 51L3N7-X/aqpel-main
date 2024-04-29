@@ -155,10 +155,10 @@ export const itemCreateValidate = {
   }),
   body: Joi.object().keys({
     name: Joi.string().required().min(3).max(20),
-    price: Joi.string().required(),
+    price: Joi.number().required().max(999),
     description: Joi.string().max(500).optional().allow(""),
-    calories: Joi.string().max(5).optional().allow(""),
-    people: Joi.string().max(3).optional().allow(""),
+    calories: Joi.number().max(99999).optional().allow(""),
+    people: Joi.number().max(10).optional().allow(""),
     imageUrl: Joi.string(),
     new: Joi.boolean(),
     special: Joi.boolean(),
@@ -183,11 +183,92 @@ export const itemModifyValidate = {
   }),
   body: Joi.object().keys({
     name: Joi.string().min(3).max(20),
-    price: Joi.string(),
+    price: Joi.number().max(999),
     description: Joi.string().max(500),
-    calories: Joi.string().max(5),
+    calories: Joi.number().max(99),
     imageUrl: Joi.string(),
     new: Joi.boolean(),
+    people: Joi.number().max(99),
     special: Joi.boolean(),
+  }),
+};
+
+export const floorCreateValidate = {
+  body: Joi.object().keys({
+    number: Joi.number().required().max(99).min(0),
+    tables: Joi.forbidden(),
+  }),
+};
+
+export const floorModifyValidate = {
+  params: Joi.object().keys({
+    floorId: Joi.string().required(),
+  }),
+  body: Joi.object().keys({
+    number: Joi.number().max(99).min(1),
+    tables: Joi.forbidden(),
+  }),
+};
+
+export const floorGetValidate = {
+  params: Joi.object().keys({
+    floorId: Joi.custom(objectId).required(),
+  }),
+};
+
+export const floorDeleteValidate = {
+  params: Joi.object().keys({
+    floorId: Joi.custom(objectId).required(),
+  }),
+};
+
+export interface Table {
+  number: string;
+  chairs: string;
+  shape: "square" | "circle";
+  restaurantId: string;
+  restaurant_name: string;
+  userId: string;
+  floorId: string;
+}
+
+export const tableCreateValidate = {
+  body: Joi.object().keys({
+    number: Joi.number().min(1).max(99).required(),
+    chairs: Joi.number().min(1).max(8).default(2),
+    shape: Joi.string().valid("square", "circle").default("square"),
+    restaurantId: Joi.string().custom(objectId).required(),
+    restaurant_name: Joi.string(),
+  }),
+  params: Joi.object().keys({
+    floorId: Joi.custom(objectId).required(),
+  }),
+};
+
+export const tableModifyValidate = {
+  body: Joi.object().keys({
+    number: Joi.number().min(1).max(100),
+    shape: Joi.string().valid("square", "circle"),
+    chairs: Joi.number().min(1).max(8),
+    restaurantId: Joi.string().custom(objectId),
+    restaurant_name: Joi.string(),
+  }),
+  params: Joi.object().keys({
+    floorId: Joi.custom(objectId).required(),
+    tableId: Joi.custom(objectId).required(),
+  }),
+};
+
+export const tableGetValidate = {
+  params: Joi.object().keys({
+    floorId: Joi.custom(objectId).required(),
+    tableId: Joi.custom(objectId).required(),
+  }),
+};
+
+export const tableDeleteValidate = {
+  params: Joi.object().keys({
+    floorId: Joi.custom(objectId).required(),
+    tableId: Joi.custom(objectId).required(),
   }),
 };

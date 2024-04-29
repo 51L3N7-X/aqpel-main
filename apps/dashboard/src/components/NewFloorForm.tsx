@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { RestaurantData } from "@repo/types";
+import type { FloorData } from "@repo/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -7,7 +7,6 @@ import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { useRestaurantStore } from "@/stores/restaurant";
 import { fetchApi } from "@/utils/fetchApi";
 
 import FieldHeader from "./FieldHeader";
@@ -16,38 +15,34 @@ import FormErrors from "./FormErrors";
 import Loading from "./Loading";
 import SaveCancelButtons from "./SaveCancelButtons";
 
-export default function NewRestaurantForm({
+export default function NewFloorForm({
   closeModal,
 }: {
   closeModal: () => void;
 }) {
   const schema = z.object({
-    name: z.string().min(1),
-    description: z.string().max(500),
+    number: z.number().min(0).max(99),
   });
-
-  const setRestaurant = useRestaurantStore((state) => state.setRestaurant);
 
   const queryClient = useQueryClient();
 
-  type ValidationSchemaType = RestaurantData;
+  type ValidationSchemaType = FloorData;
 
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: async (data: RestaurantData) => {
-      const restaurant = await fetchApi({
-        url: "/restaurant",
+    mutationFn: async (data: FloorData) => {
+      const floor = await fetchApi({
+        url: "/floor",
         method: "post",
         router,
         token: localStorage.getItem("token")!,
         data,
       });
-      queryClient.invalidateQueries({ queryKey: ["restaurants"] });
-      return restaurant;
+      queryClient.invalidateQueries({ queryKey: ["floors"] });
+      return floor;
     },
-    onSuccess: (data) => {
-      setRestaurant(data);
+    onSuccess: () => {
       closeModal();
     },
   });
@@ -69,18 +64,17 @@ export default function NewRestaurantForm({
       <Loading isOpen={mutation.isPending} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormErrors mutation={mutation} />
-        <FieldHeader>Restaurant Name</FieldHeader>
-        <FieldInput name="name" register={register} />
-        {errors.name && (
+        <FieldHeader>Floor Number</FieldHeader>
+        <FieldInput
+          name="number"
+          register={register}
+          type="number"
+          min={0}
+          max={99}
+        />
+        {errors.number && (
           <p className="text-xl font-bold text-red-500">
-            * {errors.name.message}
-          </p>
-        )}
-        <FieldHeader>Restaurant Description</FieldHeader>
-        <FieldInput name="description" register={register} />
-        {errors.description && (
-          <p className="text-xl font-bold text-red-500">
-            * {errors.description.message}
+            * {errors.number.message}
           </p>
         )}
         <SaveCancelButtons closeModal={closeModal} />

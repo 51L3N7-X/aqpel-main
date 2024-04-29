@@ -18,6 +18,7 @@ export const addItem = catchAsync(
     const item = new Item({
       userId: req.user.id,
       categoryId: req.params.categoryId,
+      restaurantId: req.params.restaurantId,
       ...req.body,
     });
 

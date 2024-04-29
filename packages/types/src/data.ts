@@ -59,3 +59,8 @@ export interface KitchenData {
   username: string;
   password: string;
 }
+
+export interface FloorData {
+  number: number;
+  id: string;
+}

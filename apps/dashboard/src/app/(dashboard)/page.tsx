@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import { useUserStore } from "@/stores/user";
 import { fetchApi } from "@/utils/fetchApi";
 
-export const revalidate = 1800;
+// export const revalidate = 1800;
 
 export default function Page() {
   const router = useRouter();

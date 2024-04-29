@@ -4,7 +4,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { MenuData } from "@repo/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import type { FieldError, SubmitHandler } from "react-hook-form";
@@ -17,6 +17,7 @@ import { getS3URL } from "@/utils/getS3URL";
 
 import FieldHeader from "./FieldHeader";
 import InputField from "./FieldInput";
+import FormErrors from "./FormErrors";
 import ImageSelector from "./ImageSelector";
 import Loading from "./Loading";
 import SaveCancelButtons from "./SaveCancelButtons";
@@ -98,27 +99,7 @@ export default function NewMenuForm({
       <Loading isOpen={mutation.isPending} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <ImageSelector file={file} setFile={setFile} editor={editor} />
-        {mutation.error instanceof AxiosError &&
-          ((mutation.error?.response?.data?.errors?.length &&
-            mutation.error.response.data.errors.map(
-              (error: { message: string }) => (
-                <p
-                  className="text-xl font-bold text-red-500"
-                  key={error.message}
-                >
-                  * {error.message}
-                </p>
-              ),
-            )) ||
-            (mutation.error?.response?.data?.message && (
-              <p className="text-xl font-bold text-red-500">
-                * {mutation.error.response.data.message}
-              </p>
-            )) || (
-              <p className="text-xl font-bold text-red-500">
-                * {mutation.error.message}
-              </p>
-            ))}
+        <FormErrors mutation={mutation} />
         <FieldHeader>Menu name</FieldHeader>
         <InputField register={register} name="name" />
         {errors.name && (

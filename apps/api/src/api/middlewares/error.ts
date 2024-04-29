@@ -42,7 +42,8 @@ export const errorHandler = (
     code: statusCode,
     message,
     errors,
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+    ...((process.env.NODE_ENV === "development" ||
+      process.env.NODE_ENV === "test") && { stack: err.stack }),
   };
 
   res.status(statusCode).send(response);

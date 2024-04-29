@@ -9,13 +9,16 @@ export const getItem = catchAsync(
     const item = await Item.findOne({ _id: req.params.itemId });
     if (!item || Object.keys(item).length <= 0)
       throw new ApiError(404, "Item not found");
-    return res.status(200).send(item);
+    return res.send(item);
   }
 );
 
 export const getItems = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const items = await Item.find({ restaurant_id: req.params.restaurantId });
-    return res.status(200).json(items || {});
+    console.log(req.params);
+    const items = await Item.find({ restaurantId: req.params.restaurantId });
+    if (!items || !Object.keys(items).length)
+      throw new ApiError(404, "Items not found");
+    return res.send(items);
   }
 );

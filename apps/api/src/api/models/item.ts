@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 import { toJSON } from "./plugins/toJson";
+import { required } from "joi";
 
 const itemSchema = new mongoose.Schema({
   name: {
@@ -20,7 +21,7 @@ const itemSchema = new mongoose.Schema({
   userId: { type: Schema.Types.ObjectId },
   menuId: { type: Schema.Types.ObjectId },
   categoryId: { type: Schema.Types.ObjectId },
-  restaurant_id: { type: Schema.Types.ObjectId },
+  restaurantId: { type: Schema.Types.ObjectId, required: true },
 });
 
 itemSchema.plugin(toJSON);

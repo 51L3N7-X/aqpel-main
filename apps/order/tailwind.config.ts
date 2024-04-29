@@ -43,7 +43,7 @@ import sharedConfig from "@repo/tailwind-config";
 import type { Config } from "tailwindcss";
 
 const config: Pick<Config, "content" | "presets" | "theme"> = {
-  content: ["./src/app/**/*.tsx"],
+  content: ["./src/app/**/*.tsx", "./src/components/**/*.tsx"],
   theme: {
     fontFamily: {
       poppins: "var(--poppins-font)",

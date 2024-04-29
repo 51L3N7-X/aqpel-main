@@ -12,7 +12,7 @@
     "axios": "^1.6.7",
     "axios-auth-refresh": "^3.3.6",
     "framer-motion": "^10.17.9",
-    "next": "^14.1.0",
+    "next": "^14.2.3",
     "next-intl": "^3.8.0",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "rc-slider": "^10.5.0",
