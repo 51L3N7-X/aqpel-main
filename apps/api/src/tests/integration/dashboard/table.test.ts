@@ -150,11 +150,13 @@ describe("Tables Routes", () => {
   });
 
   describe("PATCH /v1/floor/:floorId/table/:tableId", () => {
-    test("should return 200 and successfully update the floor if data is ok", async () => {
+    test("should return 200 and successfully update the table if data is ok", async () => {
+      // await insertRestaurants([tempRestaurant]);
       await insertTheTable();
 
       const updateBody = {
         number: 69,
+        restaurantId: tempRestaurant._id.toString(),
       };
 
       const res = await request(app)

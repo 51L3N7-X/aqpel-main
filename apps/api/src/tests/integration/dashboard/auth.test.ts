@@ -99,7 +99,7 @@ describe("Auth routes", () => {
     });
 
     test("should return 409 error if username is already used", async () => {
-      insertUsers([tempUser]);
+      await insertUsers([tempUser]);
 
       newUser.username = tempUser.username;
 
@@ -119,7 +119,7 @@ describe("Auth routes", () => {
     });
 
     test("should return 409 error if both username and email is already used", async () => {
-      insertUsers([tempUser]);
+      await insertUsers([tempUser]);
 
       newUser.username = tempUser.username;
       newUser.email = tempUser.email;
@@ -144,7 +144,7 @@ describe("Auth routes", () => {
     });
 
     test("should return 400 error if password is less than 8 characters", async () => {
-      insertUsers([tempUser]);
+      await insertUsers([tempUser]);
 
       newUser.password = "pass1";
 
@@ -164,7 +164,7 @@ describe("Auth routes", () => {
     });
 
     test("should return 400 error if password dose not contain both letters and numbers", async () => {
-      insertUsers([tempUser]);
+      await insertUsers([tempUser]);
 
       newUser.password = "1111111";
 

@@ -28,6 +28,7 @@ const config: Pick<
         white1: "#FDFDFD",
         primary: "#0098AA",
         secondary: "#46B5C2",
+        delete: "#D23D3D",
       },
     },
   },

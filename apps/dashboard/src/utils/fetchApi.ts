@@ -1,5 +1,4 @@
-"use client";
-
+import { unstable_noStore } from "next/cache";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import api from "@/lib/axios";
@@ -18,8 +17,9 @@ export const fetchApi = ({
   token: string;
   params?: any;
   data?: any;
-}) =>
-  api({
+}) => {
+  unstable_noStore();
+  return api({
     headers: {
       Authorization: token,
     },
@@ -36,3 +36,4 @@ export const fetchApi = ({
       }
       throw error;
     });
+};

@@ -20,7 +20,7 @@ export const orderValidate = {
 //register
 export const registerValidate = {
   body: Joi.object().keys({
-    username: Joi.string().required().min(3).max(20),
+    username: Joi.string().required().min(3).max(20).trim().lowercase(),
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     // phone: test.string().phoneNumber({ format: "e164" }).required(),
@@ -50,6 +50,7 @@ export const refreshTokenValidate = {
 };
 
 //menu
+
 export const menuCreateValidate = {
   body: Joi.object().keys({
     name: Joi.string().min(1).required().max(20),
@@ -84,6 +85,7 @@ export const menuDeleteValidate = {
 };
 
 //restaurant
+
 export const restaurantCreateValidate = {
   body: Joi.object().keys({
     name: Joi.string().required().max(20).min(1),
@@ -111,7 +113,8 @@ export const restaurantGetOrDeleteValidate = {
   params: restaurantUpdateValidate.params,
 };
 
-//category
+//categories
+
 export const categoryCreateValidate = {
   params: Joi.object().keys({
     restaurantId: Joi.required().custom(objectId),
@@ -146,7 +149,8 @@ export const categoryDeleteValidate = {
   params: categoryGetValidate.params,
 };
 
-//item
+//items
+
 export const itemCreateValidate = {
   params: Joi.object().keys({
     restaurantId: Joi.required().custom(objectId),
@@ -193,6 +197,8 @@ export const itemModifyValidate = {
   }),
 };
 
+//floors
+
 export const floorCreateValidate = {
   body: Joi.object().keys({
     number: Joi.number().required().max(99).min(0),
@@ -222,15 +228,7 @@ export const floorDeleteValidate = {
   }),
 };
 
-export interface Table {
-  number: string;
-  chairs: string;
-  shape: "square" | "circle";
-  restaurantId: string;
-  restaurant_name: string;
-  userId: string;
-  floorId: string;
-}
+//tables
 
 export const tableCreateValidate = {
   body: Joi.object().keys({
@@ -249,8 +247,8 @@ export const tableModifyValidate = {
   body: Joi.object().keys({
     number: Joi.number().min(1).max(100),
     shape: Joi.string().valid("square", "circle"),
-    chairs: Joi.number().min(1).max(8),
-    restaurantId: Joi.string().custom(objectId),
+    chairs: Joi.number().min(1).max(6),
+    restaurantId: Joi.string().custom(objectId).required(),
     restaurant_name: Joi.string(),
   }),
   params: Joi.object().keys({
@@ -270,5 +268,37 @@ export const tableDeleteValidate = {
   params: Joi.object().keys({
     floorId: Joi.custom(objectId).required(),
     tableId: Joi.custom(objectId).required(),
+  }),
+};
+
+// waiters
+
+export const waiterCreateValidate = {
+  body: Joi.object().keys({
+    username: Joi.string().required().trim().min(3).max(25).lowercase(),
+    password: Joi.custom(password).required(),
+    name: Joi.string().trim(),
+    photoUrl: Joi.string(),
+    restaurantId: Joi.string().custom(objectId).required(),
+    active: Joi.boolean(),
+    tables: Joi.array().items(Joi.custom(objectId)).unique(),
+  }),
+};
+
+export const waiterModifyValidate = {
+  body: Joi.object().keys({
+    username: Joi.string().trim().min(3).max(25).lowercase(),
+    password: Joi.custom(password),
+    name: Joi.string().trim(),
+    photoUrl: Joi.string(),
+    restaurantId: Joi.string().custom(objectId).required(),
+    active: Joi.boolean(),
+    tables: Joi.array().items(Joi.custom(objectId)).unique(),
+  }),
+};
+
+export const waiterGetOrDeleteValidate = {
+  params: Joi.object().keys({
+    waiterId: Joi.custom(objectId).required(),
   }),
 };

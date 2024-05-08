@@ -1,13 +1,12 @@
 "use client";
 
-// import type { Dispatch } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { MenuData } from "@repo/types";
+import type { CategoryData } from "@repo/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
-import type { FieldError, SubmitHandler } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -15,17 +14,19 @@ import { useRestaurantStore } from "@/stores/restaurant";
 import { fetchApi } from "@/utils/fetchApi";
 import { getS3URL } from "@/utils/getS3URL";
 
-import FieldHeader from "./FieldHeader";
-import InputField from "./FieldInput";
-import FormErrors from "./FormErrors";
-import ImageSelector from "./ImageSelector";
-import Loading from "./Loading";
-import SaveCancelButtons from "./SaveCancelButtons";
+import FieldHeader from "../ui/FieldHeader";
+import InputField from "../ui/FieldInput";
+import FormErrors from "../ui/FormErrors";
+import ImageSelector from "../ui/ImageSelector";
+import Loading from "../ui/Loading";
+import SaveCancelButtons from "../ui/SaveCancelButtons";
 
-export default function NewMenuForm({
+export default function NewCategoryForm({
   closeModal,
+  menuId,
 }: {
   closeModal: () => void;
+  menuId: string;
 }) {
   const editor = useRef(null);
   const [file, setFile] = useState<File | string>("");
@@ -34,14 +35,15 @@ export default function NewMenuForm({
 
   const schema = z.object({
     name: z.string().min(1),
+    description: z.string().max(300),
   });
 
-  type ValidationSchemaType = MenuData;
+  type ValidationSchemaType = CategoryData;
 
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async (data: MenuData) => {
+    mutationFn: async (data: any) => {
       let s3url = "";
       if (file) {
         const url = await getS3URL(router);
@@ -65,7 +67,7 @@ export default function NewMenuForm({
       }
 
       const postData = await fetchApi({
-        url: `restaurant/${restaurant.id}/menu`,
+        url: `restaurant/${restaurant.id}/menu/${menuId}/category`,
         method: "post",
         data: {
           ...data,
@@ -77,7 +79,7 @@ export default function NewMenuForm({
       return postData;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["menus"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
       closeModal();
     },
   });
@@ -91,7 +93,7 @@ export default function NewMenuForm({
   });
 
   const onSubmit: SubmitHandler<ValidationSchemaType> = (data) => {
-    mutation.mutate(data);
+    mutation.mutateAsync(data);
   };
 
   return (
@@ -100,11 +102,18 @@ export default function NewMenuForm({
       <form onSubmit={handleSubmit(onSubmit)}>
         <ImageSelector file={file} setFile={setFile} editor={editor} />
         <FormErrors mutation={mutation} />
-        <FieldHeader>Menu name</FieldHeader>
+        <FieldHeader>Category name</FieldHeader>
         <InputField register={register} name="name" />
         {errors.name && (
-          <p className="  text-xl font-bold text-red-500">
-            * {(errors.name as FieldError).message}
+          <p className="text-xl font-bold text-red-500">
+            * {errors.name?.message}
+          </p>
+        )}
+        <FieldHeader>Category description</FieldHeader>
+        <InputField register={register} name="description" />
+        {errors.description && (
+          <p className="text-xl font-bold text-red-500">
+            * {errors.description?.message}
           </p>
         )}
         <SaveCancelButtons closeModal={closeModal} />

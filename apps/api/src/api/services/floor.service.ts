@@ -33,7 +33,8 @@ export const updateFloorById = async (
   body: Floor
 ) => {
   const floor = await Floor.findOne({ userId, _id: id });
-  if (!floor) throw new ApiError(httpStatus.NOT_FOUND, "Floor not found");
+  if (!floor || !Object.keys(floor).length)
+    throw new ApiError(httpStatus.NOT_FOUND, "Floor not found");
   Object.assign(floor, body);
   await floor.save();
   return floor;
@@ -41,7 +42,8 @@ export const updateFloorById = async (
 
 export const deleteFloorById = async (id: string, userId: string) => {
   const floor = await Floor.findOne({ userId, _id: id });
-  if (!floor) throw new ApiError(httpStatus.NOT_FOUND, "Floor not found");
+  if (!floor || !Object.keys(floor).length)
+    throw new ApiError(httpStatus.NOT_FOUND, "Floor not found");
   await floor.deleteOne();
   return floor;
 };

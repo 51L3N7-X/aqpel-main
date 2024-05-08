@@ -1,19 +1,23 @@
 /* eslint-disable max-len */
 import { Dialog, Transition } from "@headlessui/react";
+import clsx from "clsx";
 import React, { Fragment } from "react";
+import { twMerge } from "tailwind-merge";
 
 export default function DialogComponent({
   onClose,
   children,
   isOpen,
+  type,
 }: {
-  onClose: () => void;
+  onClose: (e: any) => void;
   children: React.ReactNode;
   isOpen: boolean;
+  type?: "table";
 }) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-[100]" onClose={onClose}>
+      <Dialog as="div" className="relative z-[100]" onClose={(e) => onClose(e)}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -37,7 +41,14 @@ export default function DialogComponent({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="relative w-full max-w-[545px] overflow-hidden rounded-[44px] bg-white text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel
+                className={twMerge(
+                  clsx(
+                    "relative w-full max-w-[545px] overflow-hidden rounded-[44px] bg-white text-left align-middle shadow-xl transition-all",
+                    { "max-w-[468px]": type === "table" },
+                  ),
+                )}
+              >
                 {children}
                 {/* <Dialog.Title
                   as="h3"

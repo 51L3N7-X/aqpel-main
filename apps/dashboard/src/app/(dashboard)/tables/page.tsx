@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import AddItem from "@/components/auth/AddItem";
-import DialogComponent from "@/components/Dialog";
-import ItemsContainer from "@/components/ItemsContainer";
-import NewFloorForm from "@/components/NewFloorForm";
-import NumericItem from "@/components/NumericItem";
+import DialogComponent from "@/components/ui/Dialog";
+import ItemsContainer from "@/components/items/ItemsContainer";
+import NewFloorForm from "@/components/floors/NewFloorForm";
+import NumericItem from "@/components/ui/NumericItem";
 import { fetchApi } from "@/utils/fetchApi";
 
 export default function Tables() {

@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import DialogComponent from "@/components/Dialog";
-import NewRestaurantForm from "@/components/NewRestaurantForm";
+import DialogComponent from "@/components/ui/Dialog";
+import NewRestaurantForm from "@/components/restaurant/NewRestaurantForm";
 import { useRestaurantStore } from "@/stores/restaurant";
 import { fetchApi } from "@/utils/fetchApi";
 

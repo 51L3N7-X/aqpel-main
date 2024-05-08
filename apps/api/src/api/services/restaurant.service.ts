@@ -8,7 +8,7 @@ export const updateRestaurantById = async (
   updateBody: any
 ) => {
   const restaurant = await Restaurant.findOne({ _id: id, userId });
-  if (!restaurant)
+  if (!restaurant || !Object.keys(restaurant).length)
     throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
   Object.assign(restaurant, updateBody);
   await restaurant.save();

@@ -14,12 +14,12 @@ import { useRestaurantStore } from "@/stores/restaurant";
 import { fetchApi } from "@/utils/fetchApi";
 import { getS3URL } from "@/utils/getS3URL";
 
-import FieldHeader from "./FieldHeader";
-import InputField from "./FieldInput";
-import FormErrors from "./FormErrors";
-import ImageSelector from "./ImageSelector";
-import Loading from "./Loading";
-import SaveCancelButtons from "./SaveCancelButtons";
+import FieldHeader from "../ui/FieldHeader";
+import InputField from "../ui/FieldInput";
+import FormErrors from "../ui/FormErrors";
+import ImageSelector from "../ui/ImageSelector";
+import Loading from "../ui/Loading";
+import SaveCancelButtons from "../ui/SaveCancelButtons";
 
 export default function NewItemForm({
   closeModal,

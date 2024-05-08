@@ -49,7 +49,7 @@ export const verifyToken = async (token: string, type: string) => {
       userId: payload.sub,
       blacklisted: false,
     });
-    if (!tokenDoc) {
+    if (!tokenDoc || !Object.keys(tokenDoc).length) {
       throw new Error("Token not found");
     }
     return tokenDoc;

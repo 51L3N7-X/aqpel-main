@@ -5,7 +5,7 @@ import type { Dispatch } from "react";
 import React from "react";
 import styled from "styled-components";
 
-import NavItem from "./NavItem";
+import NavItem from "../ui/NavItem";
 
 const NavItems: {
   text: string;

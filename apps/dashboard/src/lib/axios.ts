@@ -1,5 +1,3 @@
-"use client";
-
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 // import { useRouter } from "next/navigation";
@@ -7,8 +5,6 @@ import createAuthRefreshInterceptor from "axios-auth-refresh";
 const api = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API}`,
 });
-
-// const router = useRouter();
 
 createAuthRefreshInterceptor(api, async (failedRequest) => {
   if (

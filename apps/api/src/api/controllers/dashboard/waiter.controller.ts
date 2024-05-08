@@ -1,61 +1,53 @@
-import { Waiter } from "../../models/waiter";
-import { Restaurant } from "../../models/restaurant";
-import { catchAsync } from "../../utils/catchAsync";
 import { RequestWithUser } from "../../../types/controllers";
-import { Response } from "express";
-import { ApiError } from "../../utils/ApiError";
+import type { Response } from "express";
+import { catchAsync } from "../../utils/catchAsync";
+import {
+  createWaiter,
+  deleteWaiterById,
+  getUserWaiters,
+  getWaiterById,
+  updateWaiterById,
+} from "../../services/waiter.service";
+import httpStatus from "http-status";
 
 export const addWaiter = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const restaurant = await Restaurant.findOne({ userId: req.user.id });
-    if (!restaurant) throw new ApiError(404, "restaurnat not found.");
-    const waiter = await new Waiter({
+    const waiter = await createWaiter({
       userId: req.user.id,
-      restaurant_name: restaurant.name,
       ...req.body,
     });
-    await waiter.save();
-    return res.status(200).json(waiter);
+    res.status(httpStatus.CREATED).send(waiter);
   }
 );
 
 export const getWaiters = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const waiters = await Waiter.find({
-      userId: req.user.id,
-    });
-    return res.status(200).json(waiters || {});
+    const waiters = await getUserWaiters(req.user.id);
+    res.send(waiters);
   }
 );
 
 export const getIndivWaiter = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const waiter = await Waiter.findOne({
-      userId: req.user.id,
-      _id: req.params.waiterId,
-    });
-    return res.status(200).json(waiter);
+    const waiter = await getWaiterById(req.params.waiterId, req.user.id);
+    res.send(waiter);
   }
 );
 
 export const modifyWaiter = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const waiter = await Waiter.findOneAndUpdate(
-      { _id: req.params.waiterId, userId: req.user.id },
-      req.body,
-      { new: true }
+    const waiter = await updateWaiterById(
+      req.params.waiterId,
+      req.user.id,
+      req.body
     );
-    if (!waiter) throw new ApiError(404, "Waiter not found.");
-    return res.status(200).json({ success: true, ...waiter.toObject() });
+    res.send(waiter);
   }
 );
 
 export const deleteWaiter = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    await Waiter.deleteOne({
-      _id: req.params.waiterId,
-      userId: req.user.id,
-    });
-    return res.send({ success: true });
+    await deleteWaiterById(req.params.waiterId, req.user.id);
+    res.status(httpStatus.NO_CONTENT).send();
   }
 );

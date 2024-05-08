@@ -1,6 +1,4 @@
 import type { FieldError, UseFormRegister } from "react-hook-form";
-import type { ZodType } from "zod";
-import { z } from "zod";
 
 export type SignUpFormData = {
   username: string;

@@ -13,16 +13,16 @@ export interface ItemData {
   ingredients?: string;
 }
 
-export interface TableData {
-  number: number;
-  description?: string;
-  restaurant_name: string | null;
-  place?: string;
-  sendTo?: string;
-  code?: string;
-  restaurant_id: string;
-  id?: string;
-}
+// export interface TableData {
+//   number: number;
+//   description?: string;
+//   restaurant_name: string | null;
+//   place?: string;
+//   sendTo?: string;
+//   code?: string;
+//   restaurant_id: string;
+//   id?: string;
+// }
 
 export interface MenuData {
   name: string | any;
@@ -62,5 +62,16 @@ export interface KitchenData {
 
 export interface FloorData {
   number: number;
+  id: string;
+}
+
+export interface TableData {
+  number: number;
+  chairs: number;
+  shape: "square" | "circle";
+  restaurantId: string;
+  restaurant_name: string;
+  userId: string;
+  floorId: string;
   id: string;
 }

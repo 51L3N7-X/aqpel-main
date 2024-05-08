@@ -28,7 +28,7 @@ export const refreshAuth = async (refreshToken: string) => {
       throw new ApiError(httpStatus.UNAUTHORIZED, "Unauthorized");
 
     const user = await User.findById(refreshTokenDoc.userId);
-    if (!user)
+    if (!user || !Object.keys(user).length)
       throw new ApiError(
         httpStatus.NOT_FOUND,
         "User not found with that token, Please login"

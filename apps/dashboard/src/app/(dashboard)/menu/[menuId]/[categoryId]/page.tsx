@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import AddItem from "@/components/auth/AddItem";
-import DialogComponent from "@/components/Dialog";
-import Item from "@/components/Item";
-import ItemsContainer from "@/components/ItemsContainer";
-import NewItemForm from "@/components/NewItemForm";
+import DialogComponent from "@/components/ui/Dialog";
+import Item from "@/components/ui/Item";
+import ItemsContainer from "@/components/items/ItemsContainer";
+import NewItemForm from "@/components/items/NewItemForm";
 import { useRestaurantStore } from "@/stores/restaurant";
 import { fetchApi } from "@/utils/fetchApi";
 

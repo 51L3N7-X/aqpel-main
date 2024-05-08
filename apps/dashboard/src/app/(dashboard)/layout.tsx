@@ -5,9 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 
-import Search from "@/components/Search";
-import SettingsButton from "@/components/SettingsButton";
-import SideBar from "@/components/SideBar";
+import Search from "@/components/ui/Search";
+import SettingsButton from "@/components/ui/SettingsButton";
+import SideBar from "@/components/sidebar/SideBar";
 import StyledComponentsRegistry from "@/lib/registry";
 
 import CheckRestaurant from "./CheckRestaurant";

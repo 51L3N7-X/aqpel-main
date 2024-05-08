@@ -10,11 +10,11 @@ import { z } from "zod";
 import { useRestaurantStore } from "@/stores/restaurant";
 import { fetchApi } from "@/utils/fetchApi";
 
-import FieldHeader from "./FieldHeader";
-import FieldInput from "./FieldInput";
-import FormErrors from "./FormErrors";
-import Loading from "./Loading";
-import SaveCancelButtons from "./SaveCancelButtons";
+import FieldHeader from "../ui/FieldHeader";
+import FieldInput from "../ui/FieldInput";
+import FormErrors from "../ui/FormErrors";
+import Loading from "../ui/Loading";
+import SaveCancelButtons from "../ui/SaveCancelButtons";
 
 export default function NewRestaurantForm({
   closeModal,
