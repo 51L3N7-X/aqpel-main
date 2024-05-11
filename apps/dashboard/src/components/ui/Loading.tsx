@@ -1,22 +1,18 @@
-/* eslint-disable max-len */
-import { Dialog } from "@headlessui/react";
+/* eslint-disable react/jsx-wrap-multilines */
 import { CircularProgress } from "@nextui-org/react";
 import React from "react";
 
-export default function Loading({ isOpen }: { isOpen: boolean }) {
+export default function Loading({ text }: { text?: string }) {
   return (
-    <Dialog className="relative z-[999]" open={isOpen} onClose={() => true}>
-      <div className="fixed inset-0 bg-black/30 blur-sm" aria-hidden="true" />
-      <div className="fixed inset-0 flex w-screen items-center justify-center">
-        <Dialog.Panel className="flex w-full max-w-sm items-center justify-center rounded bg-transparent">
-          <CircularProgress
-            label={
-              <h1 className=" text-lg font-bold text-primary">Uploading...</h1>
-            }
-            size="lg"
-          />
-        </Dialog.Panel>
-      </div>
-    </Dialog>
+    <div className="flex size-full items-center justify-center">
+      <CircularProgress
+        label={
+          <h1 className="text-lg font-bold text-primary">
+            {text || "Loading..."}
+          </h1>
+        }
+        size="lg"
+      />
+    </div>
   );
 }

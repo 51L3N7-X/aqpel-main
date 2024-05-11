@@ -2,12 +2,13 @@
 
 import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
 import styled from "styled-components";
 
+import SideBar from "@/components/sidebar/SideBar";
 import Search from "@/components/ui/Search";
 import SettingsButton from "@/components/ui/SettingsButton";
-import SideBar from "@/components/sidebar/SideBar";
 import StyledComponentsRegistry from "@/lib/registry";
 
 import CheckRestaurant from "./CheckRestaurant";
@@ -20,7 +21,7 @@ const Home = styled.div<{ $close: boolean }>`
   min-height: calc(100dvh - 24px);
 `;
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({});
 
 export default function DashboardLayout({
   children,
@@ -46,6 +47,9 @@ export default function DashboardLayout({
         </StyledComponentsRegistry>
         {/* </MantineProvider> */}
       </NextUIProvider>
+      {process.env.NODE_ENV === "development" && (
+        <ReactQueryDevtools initialIsOpen={false} />
+      )}
     </QueryClientProvider>
   );
 }

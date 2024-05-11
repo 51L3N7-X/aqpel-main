@@ -18,7 +18,7 @@ import FieldHeader from "../ui/FieldHeader";
 import InputField from "../ui/FieldInput";
 import FormErrors from "../ui/FormErrors";
 import ImageSelector from "../ui/ImageSelector";
-import Loading from "../ui/Loading";
+import LoadingModal from "../ui/LoadingModal";
 import SaveCancelButtons from "../ui/SaveCancelButtons";
 
 export default function NewItemForm({
@@ -106,7 +106,7 @@ export default function NewItemForm({
 
   return (
     <div className="mx-[45px] mt-16 text-primary">
-      <Loading isOpen={mutation.isPending} />
+      <LoadingModal isOpen={mutation.isPending} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <ImageSelector file={file} setFile={setFile} editor={editor} />
 

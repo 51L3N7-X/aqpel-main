@@ -2,6 +2,7 @@
   "name": "dashboard",
   "version": "0.1.0",
   "dependencies": {
+    "@repo/tailwind-config": "workspace:*",
     "@headlessui/react": "^1.7.18",
     "@hookform/resolvers": "^3.3.4",
     "@mantine/core": "^7.6.2",
@@ -10,6 +11,7 @@
     "@nextui-org/system": "^2.1.2",
     "@nextui-org/theme": "^2.2.3",
     "@tanstack/react-query": "^5.8.2",
+    "@tanstack/react-query-devtools": "^5.35.1",
     "axios": "^1.6.7",
     "axios-auth-refresh": "^3.3.6",
     "clsx": "^2.1.1",
@@ -17,7 +19,6 @@
     "html-to-image": "^1.11.11",
     "next": "^14.2.3",
     "next-intl": "^3.8.0",
-    "prettier-plugin-tailwindcss": "^0.5.11",
     "rc-slider": "^10.5.0",
     "react": "^18.3.1",
     "react-avatar-editor": "^13.0.2",
@@ -35,7 +36,6 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
-    "@repo/tailwind-config": "workspace:*",
     "@repo/types": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tanstack/eslint-plugin-query": "^5.20.1",
@@ -44,7 +44,6 @@
     "@types/react-avatar-editor": "^13.0.2",
     "@types/react-dom": "^18.2.19",
     "@types/react-loading-overlay": "^1.0.4",
-    "@typescript-eslint/parser": "^7.0.2",
     "autoprefixer": "^10.4.16",
     "cssnano": "^6.0.3",
     "eslint": "^8.56.0",
@@ -52,13 +51,14 @@
     "postcss-100vh-fix": "^1.0.2",
     "prettier": "^3.1.1",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "prettier-plugin-tailwindcss": "^0.5.11"
   },
   "private": true,
   "scripts": {
     "build": "next build",
     "dev": "next dev -p 3001",
-    "lint": "eslint .",
+    "lint": "eslint --fix .",
     "start": "next start"
   }
 }

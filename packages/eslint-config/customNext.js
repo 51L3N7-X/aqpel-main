@@ -5,13 +5,19 @@ const project = resolve(process.cwd(), "tsconfig.json");
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   extends: [
-    "airbnb-base",
     "next/core-web-vitals", // Needed to avoid warning in next.js build: 'The Next.js plugin was not detected in your ESLint configuration'
     "plugin:prettier/recommended",
     "eslint-config-turbo",
     "plugin:tailwindcss/recommended",
     "airbnb",
     "airbnb-typescript",
+  ],
+  plugins: [
+    // "only-warn",
+    "@typescript-eslint",
+    "unused-imports",
+    "tailwindcss",
+    "simple-import-sort",
   ],
   rules: {
     "prettier/prettier": [
@@ -53,6 +59,7 @@ module.exports = {
     "react/jsx-one-expression-per-line": "off",
     "operator-linebreak": "off",
     "no-param-reassign": ["error", { props: false }],
+    "object-curly-newline": "off",
   },
   globals: {
     React: true,
@@ -62,13 +69,6 @@ module.exports = {
     node: true,
     browser: true,
   },
-  plugins: [
-    // "only-warn",
-    "@typescript-eslint",
-    "unused-imports",
-    "tailwindcss",
-    "simple-import-sort",
-  ],
   settings: {
     "import/resolver": {
       typescript: {

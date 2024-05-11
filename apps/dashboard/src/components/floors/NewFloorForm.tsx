@@ -12,7 +12,7 @@ import { fetchApi } from "@/utils/fetchApi";
 import FieldHeader from "../ui/FieldHeader";
 import FieldInput from "../ui/FieldInput";
 import FormErrors from "../ui/FormErrors";
-import Loading from "../ui/Loading";
+import LoadingModal from "../ui/LoadingModal";
 import SaveCancelButtons from "../ui/SaveCancelButtons";
 
 export default function NewFloorForm({
@@ -61,7 +61,7 @@ export default function NewFloorForm({
 
   return (
     <div className="mx-[45px] mt-16 text-primary">
-      <Loading isOpen={mutation.isPending} />
+      <LoadingModal isOpen={mutation.isPending} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormErrors mutation={mutation} />
         <FieldHeader>Floor Number</FieldHeader>

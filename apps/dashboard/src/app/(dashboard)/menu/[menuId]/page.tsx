@@ -1,15 +1,16 @@
 "use client";
 
+import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import type { CategoryData } from "@repo/types";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import AddItem from "@/components/auth/AddItem";
+import NewCategoryForm from "@/components/categories/NewCategoryForm";
+import ItemsContainer from "@/components/items/ItemsContainer";
 import DialogComponent from "@/components/ui/Dialog";
 import Item from "@/components/ui/Item";
-import ItemsContainer from "@/components/items/ItemsContainer";
-import NewCategoryForm from "@/components/categories/NewCategoryForm";
 import { useRestaurantStore } from "@/stores/restaurant";
 import { fetchApi } from "@/utils/fetchApi";
 
@@ -46,6 +47,20 @@ export default function Page({ params }: { params: { menuId: string } }) {
 
   return (
     <div>
+      <Breadcrumbs className="mt-6" size="lg">
+        <BreadcrumbItem>
+          <button
+            type="button"
+            onClick={() => {
+              router.replace(`/menu`);
+            }}
+          >
+            Menu
+          </button>
+        </BreadcrumbItem>
+        <BreadcrumbItem>Categories</BreadcrumbItem>
+      </Breadcrumbs>
+
       <ItemsContainer>
         <AddItem text="Add category" onClick={openModal} />
         {isLoading && <h1 className="text-primary">Loading...</h1>}

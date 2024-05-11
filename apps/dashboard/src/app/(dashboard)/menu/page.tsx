@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import AddItem from "@/components/auth/AddItem";
-import DialogComponent from "@/components/ui/Dialog";
-import Item from "@/components/ui/Item";
 import ItemsContainer from "@/components/items/ItemsContainer";
 import NewMenuForm from "@/components/menu/NewMenuForm";
+import DialogComponent from "@/components/ui/Dialog";
+import Item from "@/components/ui/Item";
 import { useRestaurantStore } from "@/stores/restaurant";
 import { fetchApi } from "@/utils/fetchApi";
 
@@ -27,7 +27,7 @@ export default function Menu() {
   };
 
   const { isLoading, data: Menus } = useQuery({
-    queryKey: ["menus", restaurant.id],
+    queryKey: ["menus"],
     queryFn: async (): Promise<MenuData[]> => {
       try {
         const data = await fetchApi({

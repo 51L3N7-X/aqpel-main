@@ -20,6 +20,18 @@ export const getUserFloors = async (userId: string) => {
   return floor;
 };
 
+export const getFloorsWithTables = async (userId: string) => {
+  const floors = await Floor.find({ userId }).populate({
+    path: "tables",
+    select: {
+      number: 1,
+      id: 1,
+    },
+  });
+
+  return floors;
+};
+
 export const getFloorByNumber = async (number: string, userId: string) => {
   const floor = await Floor.findOne({ number, userId });
   if (!floor || !Object.keys(floor).length)

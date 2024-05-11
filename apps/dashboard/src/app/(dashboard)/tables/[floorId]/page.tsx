@@ -1,5 +1,6 @@
 "use client";
 
+import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import type { TableData } from "@repo/types";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -60,6 +61,20 @@ export default function Page({
 
   return (
     <div className="relative">
+      <Breadcrumbs className="mt-6" size="lg">
+        <BreadcrumbItem>
+          <button
+            type="button"
+            onClick={() => {
+              router.replace(`/tables`);
+            }}
+          >
+            Floors
+          </button>
+        </BreadcrumbItem>
+        <BreadcrumbItem>Tables</BreadcrumbItem>
+      </Breadcrumbs>
+
       <ItemsContainer>
         <AddItem text="Add Table" onClick={openModal} />
         {isLoading && <h1 className="text-primary">Loading...</h1>}

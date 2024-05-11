@@ -10,6 +10,7 @@ import {
   createFloor as create,
   deleteFloorById,
   getFloorById,
+  getFloorsWithTables,
   getUserFloors,
   updateFloorById,
 } from "../../services/floor.service";
@@ -33,7 +34,17 @@ export const getIndivFloor = catchAsync(
 
 export const getFloors = catchAsync(
   async (req: RequestWithUser, res: Response) => {
-    const floors = await getUserFloors(req.user.id);
+    let floors = await getUserFloors(req.user.id);
+
+    if (req.query.tables !== undefined) {
+      const populatedFloors = (await getFloorsWithTables(req.user.id)).map(
+        (floor) => ({
+          ...floor.toJSON(),
+          tables: floor.tables,
+        })
+      );
+      return res.send(populatedFloors);
+    }
     res.send(floors);
   }
 );

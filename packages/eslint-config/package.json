@@ -4,6 +4,7 @@
   "devDependencies": {
     "@types/eslint": "^8.56.1",
     "@typescript-eslint/eslint-plugin": "6.0.0",
+    "@typescript-eslint/parser": "6.0.0",
     "@vercel/style-guide": "^5.1.0",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -12,7 +13,6 @@
     "eslint-config-next": "^14.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-turbo": "^1.11.3",
-    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jest": "^27.9.0",
     "eslint-plugin-jest-dom": "^5.1.0",
     "eslint-plugin-jest-formatting": "^3.1.0",
@@ -35,8 +35,5 @@
     "react-internal.js",
     "customNext.js"
   ],
-  "private": true,
-  "dependencies": {
-    "@typescript-eslint/parser": "6.0.0"
-  }
+  "private": true
 }

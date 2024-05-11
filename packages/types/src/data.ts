@@ -13,17 +13,6 @@ export interface ItemData {
   ingredients?: string;
 }
 
-// export interface TableData {
-//   number: number;
-//   description?: string;
-//   restaurant_name: string | null;
-//   place?: string;
-//   sendTo?: string;
-//   code?: string;
-//   restaurant_id: string;
-//   id?: string;
-// }
-
 export interface MenuData {
   name: string | any;
   id: string;
@@ -43,16 +32,16 @@ export interface RestaurantData {
   description?: string;
 }
 
-export interface WaiterData {
-  restaurant_name: string | null;
-  username: string;
-  password: string;
-  name?: string;
-  photoUrl?: string;
-  active?: boolean;
-  id?: string;
-  tables: Array<string>;
-}
+// export interface WaiterData {
+//   restaurant_name: string | null;
+//   username: string;
+//   password: string;
+//   name?: string;
+//   photoUrl?: string;
+//   active?: boolean;
+//   id?: string;
+//   tables: Array<string>;
+// }
 
 export interface KitchenData {
   restaurant_name: string;
@@ -60,9 +49,15 @@ export interface KitchenData {
   password: string;
 }
 
+export interface TableItems {
+  id: string;
+  number: string;
+}
+
 export interface FloorData {
   number: number;
   id: string;
+  tables: TableItems[];
 }
 
 export interface TableData {
@@ -74,4 +69,16 @@ export interface TableData {
   userId: string;
   floorId: string;
   id: string;
+}
+
+export interface WaiterData {
+  username: string;
+  password: string;
+  restaurantId: string;
+  userId: string;
+  id: string;
+  name: string;
+  photoUrl: string;
+  active: boolean;
+  tables: string[];
 }

@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import DialogComponent from "@/components/ui/Dialog";
 import NewRestaurantForm from "@/components/restaurant/NewRestaurantForm";
+import DialogComponent from "@/components/ui/Dialog";
 import { useRestaurantStore } from "@/stores/restaurant";
 import { fetchApi } from "@/utils/fetchApi";
 
@@ -27,6 +27,8 @@ export default function CheckRestaurant() {
       });
       return response;
     },
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {

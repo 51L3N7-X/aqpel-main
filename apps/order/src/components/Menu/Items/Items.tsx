@@ -22,11 +22,7 @@ export function Items() {
       `${process.env.NEXT_PUBLIC_API_URL}/${restaurantId}/items`,
     );
 
-    console.log(response);
-
     const data = await response.json();
-
-    console.log(data);
 
     return data;
   };
@@ -35,8 +31,6 @@ export function Items() {
     queryKey: ["items"],
     queryFn: getItems,
   });
-
-  console.log(data);
 
   if (isLoading) return <div>Loading..</div>;
 
