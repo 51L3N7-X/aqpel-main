@@ -11,8 +11,8 @@ import NewCategoryForm from "@/components/categories/NewCategoryForm";
 import ItemsContainer from "@/components/items/ItemsContainer";
 import DialogComponent from "@/components/ui/Dialog";
 import Item from "@/components/ui/Item";
+import api from "@/lib/api";
 import { useRestaurantStore } from "@/stores/restaurant";
-import { fetchApi } from "@/utils/fetchApi";
 
 export default function Page({ params }: { params: { menuId: string } }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,13 +23,11 @@ export default function Page({ params }: { params: { menuId: string } }) {
     queryKey: ["categories"],
     queryFn: async (): Promise<CategoryData[]> => {
       try {
-        const data = await fetchApi({
+        const data = await api({
           url: `/restaurant/${restaurant.id}/menu/${params.menuId}/category`,
           method: "get",
-          router,
-          token: localStorage.getItem("token")!,
         });
-        return data;
+        return data.data;
       } catch (e: any) {
         if (e.response.data.code === 404) return [];
         throw e;

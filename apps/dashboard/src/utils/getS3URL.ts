@@ -1,14 +1,10 @@
-import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import api from "@/lib/api";
 
-import { fetchApi } from "./fetchApi";
-
-export const getS3URL = async (router: AppRouterInstance): Promise<string> => {
-  const requestURL = await fetchApi({
+export const getS3URL = async (): Promise<string> => {
+  const requestURL = (await api({
     url: "/getUploadURL",
     method: "get",
-    token: localStorage.getItem("token")!,
-    router,
     params: { fileExtension: "png" },
-  });
+  })) as any;
   return requestURL.url;
 };

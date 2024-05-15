@@ -1,13 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FloorData } from "@repo/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { fetchApi } from "@/utils/fetchApi";
+import api from "@/lib/api";
 
 import FieldHeader from "../ui/FieldHeader";
 import FieldInput from "../ui/FieldInput";
@@ -28,19 +27,15 @@ export default function NewFloorForm({
 
   type ValidationSchemaType = FloorData;
 
-  const router = useRouter();
-
   const mutation = useMutation({
     mutationFn: async (data: FloorData) => {
-      const floor = await fetchApi({
+      const floor = await api({
         url: "/floor",
         method: "post",
-        router,
-        token: localStorage.getItem("token")!,
         data,
       });
       queryClient.invalidateQueries({ queryKey: ["floors"] });
-      return floor;
+      return floor.data;
     },
     onSuccess: () => {
       closeModal();

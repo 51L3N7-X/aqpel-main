@@ -8,12 +8,11 @@ import { CircularProgress } from "@nextui-org/react";
 import type { TableData } from "@repo/types";
 import { useQuery } from "@tanstack/react-query";
 import * as htmlToImage from "html-to-image";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import QRcode from "react-qr-code";
 import ReactToPrint from "react-to-print";
 
-import { fetchApi } from "@/utils/fetchApi";
+import api from "@/lib/api";
 
 export default function TableDetails({
   floorId,
@@ -22,7 +21,6 @@ export default function TableDetails({
   floorId: string;
   tableId: string;
 }) {
-  const router = useRouter();
   const [url, setUrl] = useState("");
   const [size, setSize] = useState(100);
   const qrCodeRef = useRef(null);
@@ -32,13 +30,11 @@ export default function TableDetails({
     queryKey: ["table"],
     queryFn: async (): Promise<TableData | null> => {
       try {
-        const data = await fetchApi({
+        const data = await api({
           url: `/floor/${floorId}/table/${tableId}`,
           method: "get",
-          router,
-          token: localStorage.getItem("token")!,
         });
-        return data;
+        return data.data;
       } catch (e: any) {
         if (e.response.data.code === 404) return null;
         throw e;

@@ -1,14 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { RestaurantData } from "@repo/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import api from "@/lib/api";
 import { useRestaurantStore } from "@/stores/restaurant";
-import { fetchApi } from "@/utils/fetchApi";
 
 import FieldHeader from "../ui/FieldHeader";
 import FieldInput from "../ui/FieldInput";
@@ -32,19 +31,15 @@ export default function NewRestaurantForm({
 
   type ValidationSchemaType = RestaurantData;
 
-  const router = useRouter();
-
   const mutation = useMutation({
     mutationFn: async (data: RestaurantData) => {
-      const restaurant = await fetchApi({
+      const restaurant = await api({
         url: "/restaurant",
         method: "post",
-        router,
-        token: localStorage.getItem("token")!,
         data,
       });
       queryClient.invalidateQueries({ queryKey: ["restaurants"] });
-      return restaurant;
+      return restaurant.data;
     },
     onSuccess: (data) => {
       setRestaurant(data);

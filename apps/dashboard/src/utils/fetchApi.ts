@@ -1,39 +1,24 @@
-import { unstable_noStore } from "next/cache";
-import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+// import { unstable_noStore } from "next/cache";
+// import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-import api from "@/lib/axios";
+// import api from "@/lib/axios";
 
-export const fetchApi = ({
-  url,
-  method,
-  router,
-  token,
-  params,
-  data,
-}: {
-  url: string;
-  method: string;
-  router: AppRouterInstance;
-  token: string;
-  params?: any;
-  data?: any;
-}) => {
-  unstable_noStore();
-  return api({
-    headers: {
-      Authorization: token,
-    },
-    url,
-    method,
-    data,
-    params,
-  })
-    .then((res) => res.data)
-    .catch((error: any) => {
-      if (error.message === "redirect") {
-        localStorage.clear();
-        router.push("/signin");
-      }
-      throw error;
-    });
-};
+// export const fetchApi = ({
+//   url,
+//   method,
+//   params,
+//   data,
+// }: {
+//   url: string;
+//   method: string;
+
+//   params?: any;
+//   data?: any;
+// }) =>
+//   // unstable_noStore();
+//   api({
+//     url,
+//     method,
+//     data,
+//     params,
+//   }).then((res) => res.data);

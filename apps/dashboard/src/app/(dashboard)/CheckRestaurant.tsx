@@ -1,31 +1,27 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import NewRestaurantForm from "@/components/restaurant/NewRestaurantForm";
 import DialogComponent from "@/components/ui/Dialog";
+import LoadingModal from "@/components/ui/LoadingModal";
+import api from "@/lib/api";
 import { useRestaurantStore } from "@/stores/restaurant";
-import { fetchApi } from "@/utils/fetchApi";
 
 export default function CheckRestaurant() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const setRestaurant = useRestaurantStore((state) => state.setRestaurant);
 
-  const router = useRouter();
-
-  const { data: restaurants } = useQuery({
+  const { data: restaurants, isLoading } = useQuery({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: ["restaurants"],
     queryFn: async () => {
-      const response = await fetchApi({
+      const response = await api({
         url: "/restaurant",
         method: "get",
-        router,
-        token: localStorage.getItem("token")!,
       });
-      return response;
+      return response.data;
     },
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: false,
@@ -35,16 +31,21 @@ export default function CheckRestaurant() {
     if (restaurants?.length) {
       setIsDialogOpen(false);
       setRestaurant(restaurants[0]);
-    } else {
+    }
+    if (!isLoading && !restaurants.length) {
+      console.log(isLoading, restaurants);
       setIsDialogOpen(true);
     }
-  }, [restaurants, setRestaurant]);
+  });
   return (
-    <DialogComponent
-      onClose={() => setIsDialogOpen(false)}
-      isOpen={isDialogOpen}
-    >
-      <NewRestaurantForm closeModal={() => setIsDialogOpen(false)} />
-    </DialogComponent>
+    <>
+      {isLoading && <LoadingModal isOpen />}
+      <DialogComponent
+        onClose={() => setIsDialogOpen(false)}
+        isOpen={isDialogOpen}
+      >
+        <NewRestaurantForm closeModal={() => setIsDialogOpen(false)} />
+      </DialogComponent>
+    </>
   );
 }

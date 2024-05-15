@@ -4,14 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { ItemData } from "@repo/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import api from "@/lib/api";
 import { useRestaurantStore } from "@/stores/restaurant";
-import { fetchApi } from "@/utils/fetchApi";
 import { getS3URL } from "@/utils/getS3URL";
 
 import FieldHeader from "../ui/FieldHeader";
@@ -33,7 +32,6 @@ export default function NewItemForm({
   const editor = useRef(null);
   const [file, setFile] = useState<File | string>("");
   const restaurant = useRestaurantStore((state) => state.restaurant);
-  const router = useRouter();
 
   const schema = z.object({
     name: z.string().min(1),
@@ -54,7 +52,7 @@ export default function NewItemForm({
     mutationFn: async (data: ItemData) => {
       let s3url = "";
       if (file) {
-        const url = await getS3URL(router);
+        const url = await getS3URL();
         s3url = url.replace(/\?(.*)/g, "");
         const imageData = editor.current
           // @ts-ignore
@@ -74,17 +72,15 @@ export default function NewItemForm({
         }
       }
 
-      const postData = await fetchApi({
+      const postData = await api({
         url: `restaurant/${restaurant.id}/menu/${menuId}/category/${categoryId}/item`,
         method: "post",
         data: {
           ...data,
           ...(s3url && { imageUrl: s3url }),
         },
-        token: localStorage.getItem("token")!,
-        router,
       });
-      return postData;
+      return postData.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });

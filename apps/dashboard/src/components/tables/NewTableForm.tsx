@@ -2,14 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectItem } from "@nextui-org/select";
 import type { TableData } from "@repo/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
+import api from "@/lib/api";
 import { useRestaurantStore } from "@/stores/restaurant";
-import { fetchApi } from "@/utils/fetchApi";
 
 import FieldHeader from "../ui/FieldHeader";
 import FieldInput from "../ui/FieldInput";
@@ -35,19 +34,15 @@ export default function NewTableForm({
 
   type ValidationSchemaType = TableData;
 
-  const router = useRouter();
-
   const mutation = useMutation({
     mutationFn: async (data: TableData) => {
-      const table = await fetchApi({
+      const table = await api({
         url: `/floor/${floorId}/table`,
         method: "post",
-        router,
-        token: localStorage.getItem("token")!,
         data: { ...data, restaurantId: restaurant.id },
       });
       queryClient.invalidateQueries({ queryKey: ["tables"] });
-      return table;
+      return table.data;
     },
     onSuccess: () => {
       closeModal();

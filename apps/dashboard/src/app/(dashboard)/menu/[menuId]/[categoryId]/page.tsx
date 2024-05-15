@@ -12,8 +12,8 @@ import NewItemForm from "@/components/items/NewItemForm";
 import DialogComponent from "@/components/ui/Dialog";
 // import DialogComponent from "@/components/ui/Dialog";
 import Item from "@/components/ui/Item";
+import api from "@/lib/api";
 import { useRestaurantStore } from "@/stores/restaurant";
-import { fetchApi } from "@/utils/fetchApi";
 
 export default function Page({
   params,
@@ -28,13 +28,11 @@ export default function Page({
     queryKey: ["items"],
     queryFn: async (): Promise<ItemData[]> => {
       try {
-        const data = await fetchApi({
+        const data = await api({
           url: `/restaurant/${restaurant.id}/menu/${params.menuId}/category/${params.categoryId}/item`,
           method: "get",
-          router,
-          token: localStorage.getItem("token")!,
         });
-        return data;
+        return data.data;
       } catch (e: any) {
         if (e.response.data.code === 404) return [];
         throw e;

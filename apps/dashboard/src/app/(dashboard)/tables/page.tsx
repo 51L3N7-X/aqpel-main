@@ -2,7 +2,6 @@
 
 import type { FloorData } from "@repo/types";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import AddItem from "@/components/auth/AddItem";
@@ -10,11 +9,10 @@ import NewFloorForm from "@/components/floors/NewFloorForm";
 import ItemsContainer from "@/components/items/ItemsContainer";
 import DialogComponent from "@/components/ui/Dialog";
 import NumericItem from "@/components/ui/NumericItem";
-import { fetchApi } from "@/utils/fetchApi";
+import api from "@/lib/api";
 
 export default function Tables() {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
 
   const closeModal = () => {
     setIsOpen(false);
@@ -28,13 +26,11 @@ export default function Tables() {
     queryKey: ["floors"],
     queryFn: async (): Promise<FloorData[]> => {
       try {
-        const data = await fetchApi({
+        const data = await api({
           url: `/floor`,
           method: "get",
-          router,
-          token: localStorage.getItem("token")!,
         });
-        return data;
+        return data.data;
       } catch (e: any) {
         if (e.response.data.code === 404) return [];
         throw e;

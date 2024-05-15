@@ -12,7 +12,7 @@ import NewTableForm from "@/components/tables/NewTableForm";
 import TableDetails from "@/components/tables/TableDetails";
 import TableItem from "@/components/tables/TableItem";
 import DialogComponent from "@/components/ui/Dialog";
-import { fetchApi } from "@/utils/fetchApi";
+import api from "@/lib/api";
 
 export default function Page({
   params: { floorId },
@@ -45,13 +45,11 @@ export default function Page({
     queryKey: ["tables"],
     queryFn: async (): Promise<TableData[]> => {
       try {
-        const data = await fetchApi({
+        const data = await api({
           url: `/floor/${floorId}/table`,
           method: "get",
-          router,
-          token: localStorage.getItem("token")!,
         });
-        return data;
+        return data.data;
       } catch (e: any) {
         if (e.response.data.code === 404) return [];
         throw e;

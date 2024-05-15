@@ -6,14 +6,13 @@ import { Accordion, AccordionItem, Checkbox, Divider } from "@nextui-org/react";
 import type { FloorData, TableItems, WaiterData } from "@repo/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import type { FieldError, SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import api from "@/lib/api";
 import { useRestaurantStore } from "@/stores/restaurant";
-import { fetchApi } from "@/utils/fetchApi";
 import { getS3URL } from "@/utils/getS3URL";
 
 import FieldHeader from "../ui/FieldHeader";
@@ -103,7 +102,6 @@ export default function NewWaiterForm({
   const [file, setFile] = useState<File | string>("");
   const [tables, setTables] = useState<string[]>([]);
   const restaurant = useRestaurantStore((state) => state.restaurant);
-  const router = useRouter();
 
   const schema = z
     .object({
@@ -135,7 +133,7 @@ export default function NewWaiterForm({
     mutationFn: async (data: WaiterData) => {
       let s3url = "";
       if (file) {
-        const url = await getS3URL(router);
+        const url = await getS3URL();
         s3url = url.replace(/\?(.*)/g, "");
         const imageData = editor.current
           // @ts-ignore
@@ -155,7 +153,7 @@ export default function NewWaiterForm({
         }
       }
 
-      const postData = await fetchApi({
+      const postData = await api({
         url: `waiter`,
         method: "post",
         data: {
@@ -164,10 +162,8 @@ export default function NewWaiterForm({
           restaurantId: restaurant.id,
           ...(Object.keys(tables).length && { tables }),
         },
-        token: localStorage.getItem("token")!,
-        router,
       });
-      return postData;
+      return postData.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["waiters"] });
@@ -191,13 +187,11 @@ export default function NewWaiterForm({
     queryKey: ["floors"],
     queryFn: async (): Promise<FloorData[]> => {
       try {
-        const data = await fetchApi({
+        const data = await api({
           url: `/floor?tables=true`,
           method: "get",
-          router,
-          token: localStorage.getItem("token")!,
         });
-        return data;
+        return data.data;
       } catch (e: any) {
         if (e.response.data.code === 404) return [];
         throw e;

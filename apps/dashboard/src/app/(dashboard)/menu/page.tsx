@@ -2,7 +2,6 @@
 
 import type { MenuData } from "@repo/types";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import AddItem from "@/components/auth/AddItem";
@@ -10,13 +9,12 @@ import ItemsContainer from "@/components/items/ItemsContainer";
 import NewMenuForm from "@/components/menu/NewMenuForm";
 import DialogComponent from "@/components/ui/Dialog";
 import Item from "@/components/ui/Item";
+import api from "@/lib/api";
 import { useRestaurantStore } from "@/stores/restaurant";
-import { fetchApi } from "@/utils/fetchApi";
 
 export default function Menu() {
   const restaurant = useRestaurantStore((state) => state.restaurant);
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
 
   const closeModal = () => {
     setIsOpen(false);
@@ -30,13 +28,11 @@ export default function Menu() {
     queryKey: ["menus"],
     queryFn: async (): Promise<MenuData[]> => {
       try {
-        const data = await fetchApi({
+        const data = await api({
           url: `/restaurant/${restaurant.id}/menu`,
           method: "get",
-          router,
-          token: localStorage.getItem("token")!,
         });
-        return data;
+        return data.data;
       } catch (e: any) {
         if (e.response.data.code === 404) return [];
         throw e;
