@@ -1,8 +1,0 @@
-{
-  "cSpell.words": ["prefs"],
-  "jest.runMode": {
-    "type": "on-demand"
-  },
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true
-}
-//
