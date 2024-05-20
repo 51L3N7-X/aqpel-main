@@ -45,7 +45,7 @@ export default function Item({ item }: { item: ItemData }) {
   return (
     <div className="relative h-[167px] w-[120px] justify-self-center rounded-2xl bg-[#FBFAF6] font-poppins shadow-[-1px_4px_4px_1px_rgba(172,172,172,0.25)]">
       <Image
-        src="/menu/item.jpg"
+        src={item.imageUrl || "/menu/item.jpg"}
         alt=""
         width={118}
         height={114}
