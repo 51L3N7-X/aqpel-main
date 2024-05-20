@@ -63,7 +63,7 @@ export default function TableDetails({
       if (process.env.NODE_ENV === "development") {
         setUrl(`http://${window.location.hostname}:3000/order/${table?.id}`);
       } else {
-        setUrl(`https://${window.location.host}/order/${table?.id}`);
+        setUrl(`https://order.aqpel.app/order/${table?.id}`);
       }
     }
   }, [table?.id]);
