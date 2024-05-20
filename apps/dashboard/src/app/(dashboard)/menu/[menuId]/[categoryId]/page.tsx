@@ -51,7 +51,16 @@ export default function Page({
   return (
     <div>
       <Breadcrumbs className="mt-6" size="lg">
-        <BreadcrumbItem>Menu</BreadcrumbItem>
+        <BreadcrumbItem>
+          <button
+            type="button"
+            onClick={() => {
+              router.replace(`/menu`);
+            }}
+          >
+            Menu
+          </button>
+        </BreadcrumbItem>
         <BreadcrumbItem>
           <button
             type="button"

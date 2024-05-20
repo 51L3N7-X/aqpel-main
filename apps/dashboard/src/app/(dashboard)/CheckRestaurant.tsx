@@ -27,19 +27,19 @@ export default function CheckRestaurant() {
     refetchOnWindowFocus: false,
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (restaurants?.length) {
       setIsDialogOpen(false);
       setRestaurant(restaurants[0]);
     }
     if (!isLoading && !restaurants.length) {
-      console.log(isLoading, restaurants);
       setIsDialogOpen(true);
     }
   });
   return (
     <>
-      {isLoading && <LoadingModal isOpen />}
+      {isLoading && <LoadingModal isOpen text="Loading..." />}
       <DialogComponent
         onClose={() => setIsDialogOpen(false)}
         isOpen={isDialogOpen}

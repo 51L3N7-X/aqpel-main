@@ -43,6 +43,7 @@ export default function NewMenuForm({
       let s3url = "";
       if (file) {
         const url = await getS3URL();
+        alert(url);
         s3url = url.replace(/\?(.*)/g, "");
         const imageData = editor.current
           // @ts-ignore
