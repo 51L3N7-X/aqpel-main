@@ -2,7 +2,6 @@
   "name": "dashboard",
   "version": "0.1.0",
   "dependencies": {
-    "@repo/tailwind-config": "workspace:*",
     "@headlessui/react": "^1.7.18",
     "@hookform/resolvers": "^3.3.4",
     "@mantine/core": "^7.6.2",
@@ -10,6 +9,7 @@
     "@nextui-org/select": "^2.1.27",
     "@nextui-org/system": "^2.1.2",
     "@nextui-org/theme": "^2.2.3",
+    "@repo/tailwind-config": "workspace:*",
     "@tanstack/react-query": "^5.8.2",
     "@tanstack/react-query-devtools": "^5.35.1",
     "axios": "^1.6.7",
@@ -17,12 +17,12 @@
     "clsx": "^2.1.1",
     "framer-motion": "^10.17.9",
     "html-to-image": "^1.11.11",
-    "next": "^14.2.3",
+    "next": "^14.2.8",
     "next-intl": "^3.8.0",
     "rc-slider": "^10.5.0",
     "react": "^18.3.1",
     "react-avatar-editor": "^13.0.2",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.51.0",
     "react-loading-overlay": "^1.0.1",
@@ -50,9 +50,9 @@
     "postcss": "^8.4.35",
     "postcss-100vh-fix": "^1.0.2",
     "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.3.3",
-    "prettier-plugin-tailwindcss": "^0.5.11"
+    "typescript": "^5.3.3"
   },
   "private": true,
   "scripts": {

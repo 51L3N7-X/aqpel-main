@@ -12,7 +12,7 @@ import Loading from "../Loading/Loading";
 import NavBar from "../NavBar/Navbar";
 import Received from "../Received/Received";
 import style from "./order.module.css";
-import { socket } from "./socket";
+import { socket } from "./socket.ts";
 
 export default function Order({
   params,
@@ -26,7 +26,7 @@ export default function Order({
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const [isOrderReceived, setIsOrderReceived] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [callingName, setCallingName] = useState("");
+  const [callingType, setCallingType] = useState("");
   const [receivedData, setReceivedData] = useState<any>({});
 
   useEffect(() => {
@@ -42,6 +42,10 @@ export default function Order({
       setReceivedData({ name, photoUrl });
     }
 
+    function onUser(data: any) {
+      console.log(data);
+    }
+
     function onConnect() {
       setIsConnected(true);
     }
@@ -52,32 +56,36 @@ export default function Order({
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    socket.on("waiter:notfiyOrderIsDone", onDone);
+    socket.on("waiter:notifyOrderIsDone", onDone);
+    socket.on("user", onUser);
 
     localStorage.setItem("table", JSON.stringify(table));
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
-      socket.off("waiter:notfiyOrderIsDone", onDone);
+      socket.off("waiter:notifyOrderIsDone", onDone);
+      socket.off("user", onUser);
     };
   }, [params.id, table]);
 
-  function onOrder(name: string) {
-    if (name === "Menu") {
+  function onOrder(type: string) {
+    if (type === "Menu") {
       return;
       // router.prefetch(`${params.id}/menu`);
     }
 
-    setCallingName(name);
+    setCallingType(type);
     setIsButtonPressed(true);
     setIsLoading(true);
 
-    socket.emit("order:create", {
-      type: name.toLowerCase(),
-      restaurant_id: table.restaurant_id,
+    const order = {
+      type: type.toLowerCase(),
+      restaurant_id: table.restaurantId,
       table_id: params.id,
-    });
+      table_number: table.number,
+    };
+    socket.emit("order:create", order);
 
     //   setTimeout(() => {
     //  waiter.emit("waiter:orderDone", {
@@ -144,7 +152,7 @@ export default function Order({
         </Suspense> */}
 
         <Loading
-          name={callingName}
+          name={callingType}
           style={{ display: isLoading ? "flex" : "none" }}
         />
         <Received

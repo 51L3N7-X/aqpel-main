@@ -7,9 +7,5 @@ export default function OrderLayoutPage({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div>
-      <ReactQueryProvider>{children}</ReactQueryProvider>
-    </div>
-  );
+  return <ReactQueryProvider>{children}</ReactQueryProvider>;
 }
