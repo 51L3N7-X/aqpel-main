@@ -19,7 +19,7 @@ export function Items() {
     localStorage.setItem("restaurantId", restaurantId);
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/${restaurantId}/items`,
+      `${process.env.NEXT_PUBLIC_API_URL}${restaurantId}/items`,
     );
 
     const data = await response.json();

@@ -19,7 +19,7 @@ export default function Categories() {
     localStorage.setItem("restaurantId", restaurantId);
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/${restaurantId}/categories`,
+      `${process.env.NEXT_PUBLIC_API_URL}${restaurantId}/categories`,
     );
 
     const data = await response.json();
