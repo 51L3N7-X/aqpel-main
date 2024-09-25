@@ -8,17 +8,21 @@ import AddItem from "@/components/auth/AddItem";
 import ItemsContainer from "@/components/items/ItemsContainer";
 import DialogComponent from "@/components/ui/Dialog";
 import Item from "@/components/ui/Item";
-import NewWaiterForm from "@/components/waiter/NewWaiterForm";
+import WaiterForm from "@/components/waiter/Form";
+// import NewWaiterForm from "@/components/waiter/NewWaiterForm";
 import api from "@/lib/api";
 
 export default function Waiters() {
   const [isOpen, setIsOpen] = useState(false);
+  const [waiter, setWaiter] = useState<WaiterData | undefined>(undefined);
 
   const closeModal = () => {
+    setWaiter(undefined);
     setIsOpen(false);
   };
 
-  const openModal = () => {
+  const openModal = (data: WaiterData | undefined) => {
+    setWaiter(data);
     setIsOpen(true);
   };
 
@@ -41,13 +45,20 @@ export default function Waiters() {
   return (
     <div className="relative">
       <ItemsContainer>
-        <AddItem text="Add Waiter" onClick={openModal} />
+        <AddItem text="Add Waiter" onClick={() => openModal(undefined)} />
         {isLoading && <h1 className="text-primary">Loading...</h1>}
         {waiters &&
-          waiters.map((waiter) => <Item data={waiter} key={waiter.id} />)}
+          waiters.map((data) => (
+            <Item
+              link={false}
+              data={data}
+              key={data.id}
+              onClick={() => openModal(data)}
+            />
+          ))}
       </ItemsContainer>
       <DialogComponent onClose={closeModal} isOpen={isOpen}>
-        <NewWaiterForm closeModal={closeModal} />
+        <WaiterForm closeModal={closeModal} waiter={waiter} />
       </DialogComponent>
     </div>
   );

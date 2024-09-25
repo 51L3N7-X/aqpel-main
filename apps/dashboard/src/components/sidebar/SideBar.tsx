@@ -1,9 +1,14 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import type { Dispatch } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+
+import api from "@/lib/api";
+import { useRestaurantStore } from "@/stores/restaurant";
+import { useUserStore } from "@/stores/user";
 
 import NavItem from "../ui/NavItem";
 
@@ -88,13 +93,37 @@ export default function SideBar({
   close: boolean;
   setClose: Dispatch<(state: boolean) => boolean>;
 }) {
+  const setUser = useUserStore((state) => state.setUser);
+  const user = useUserStore((state) => state.user);
+  const restaurant = useRestaurantStore((state) => state.restaurant);
+
+  const { data: userFetched } = useQuery({
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+    queryKey: ["user"],
+    queryFn: async () => {
+      const response = await api({
+        url: "/user",
+        method: "get",
+      });
+      return response.data;
+    },
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+  });
+
+  useEffect(() => {
+    if (userFetched) {
+      setUser(userFetched);
+    }
+  }, [userFetched, setUser]);
+
   return (
     <NavBar className="m-6 mr-8 rounded-2xl" $close={close}>
       <header className="my-8 flex flex-row items-center space-x-5 px-5">
         <BarImage src="/restaurantBackground.jpg" alt="Restaurant image" />
         {!close && (
           <h1 className="text-[20px] font-bold leading-6 text-white1">
-            Al Sadda Restaurant
+            {restaurant.name} Restaurant
           </h1>
         )}
       </header>
@@ -132,7 +161,7 @@ export default function SideBar({
             </h1>
 
             <span className="whitespace-nowrap text-lg font-semibold  leading-6">
-              abdullah shaiban
+              {user?.username}
             </span>
           </div>
         )}

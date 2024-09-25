@@ -29,7 +29,6 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [close, setClose] = useState<boolean>(false);
-
   return (
     <QueryClientProvider client={queryClient}>
       <NextUIProvider>

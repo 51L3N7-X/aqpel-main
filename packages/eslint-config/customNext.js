@@ -13,7 +13,7 @@ module.exports = {
     "airbnb-typescript",
   ],
   plugins: [
-    // "only-warn",
+    "only-warn",
     "@typescript-eslint",
     "unused-imports",
     "tailwindcss",
@@ -21,7 +21,7 @@ module.exports = {
   ],
   rules: {
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         doubleQuote: true,
         endOfLine: "auto",
@@ -60,6 +60,7 @@ module.exports = {
     "operator-linebreak": "off",
     "no-param-reassign": ["error", { props: false }],
     "object-curly-newline": "off",
+    "no-use-before-define": "off",
   },
   globals: {
     React: true,
