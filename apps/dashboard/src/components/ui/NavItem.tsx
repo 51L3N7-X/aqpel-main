@@ -31,12 +31,15 @@ export default function NavItem({
   IconSrc: string;
   close: boolean;
 }) {
-  const path = usePathname();
+  const path = `/${usePathname().split("/").filter(Boolean)[0] || ""}`;
+  const newHref = `/${href.split("/").filter(Boolean)[0] || ""}`;
 
+  const isSelected =
+    path === newHref || (path.startsWith(newHref) && newHref.length > 1);
   return (
     <Link href={href}>
       <Container
-        $selected={path === href}
+        $selected={isSelected}
         // eslint-disable-next-line tailwindcss/classnames-order
         className="flex h-[52px] flex-row items-center space-x-3 rounded-md px-8  text-white1 hover:bg-secondary"
       >

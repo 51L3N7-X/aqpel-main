@@ -1,5 +1,11 @@
+"use client";
+
 import React from "react";
+import { Tabs } from "@nextui-org/react";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Settings() {
-  return <div>Settings</div>;
+  const router = useRouter();
+  return router.push("/settings/user");
 }
