@@ -30,8 +30,8 @@ export default function SettingsLaoyout({
           }}
         >
           <Tab
-            title={<Link href="/settings/user">User</Link>}
-            key="/settings/user"
+            title={<Link href="/settings/account">Account</Link>}
+            key="/settings/account"
           />
 
           <Tab

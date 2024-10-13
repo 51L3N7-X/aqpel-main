@@ -38,6 +38,7 @@ const schema = z
       ctx.addIssue({
         code: "custom",
         message: "Password must contain at least 1 letter and 1 number",
+        path: ["password"],
       });
     }
   });

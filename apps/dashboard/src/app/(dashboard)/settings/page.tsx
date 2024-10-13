@@ -7,5 +7,5 @@ import { useRouter } from "next/navigation";
 
 export default function Settings() {
   const router = useRouter();
-  return router.push("/settings/user");
+  return router.push("/settings/account");
 }

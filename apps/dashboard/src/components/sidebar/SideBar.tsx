@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { Fish, User } from "lucide-react";
 import Image from "next/image";
 import type { Dispatch } from "react";
 import React, { useEffect } from "react";
@@ -11,6 +12,7 @@ import { useRestaurantStore } from "@/stores/restaurant";
 import { useUserStore } from "@/stores/user";
 
 import NavItem from "../ui/NavItem";
+import Link from "next/link";
 
 const NavItems: {
   text: string;
@@ -64,7 +66,7 @@ function BarImage({ src, alt }: { src: string; alt: string }) {
     <Image
       src={src}
       alt={alt}
-      className=" size-12  rounded-full shadow-[0px_0px_0px_9px_rgba(255,255,255,0.22)]"
+      className=" size-12 rounded-full shadow-[0px_0px_0px_9px_rgba(255,255,255,0.22)]"
       width={512}
       height={512}
     />
@@ -120,9 +122,20 @@ export default function SideBar({
   return (
     <NavBar className="m-6 mr-8 rounded-2xl" $close={close}>
       <header className="my-8 flex flex-row items-center space-x-5 px-5">
-        <BarImage src="/restaurantBackground.jpg" alt="Restaurant image" />
+        <Link href="/settings/restaurant">
+          {restaurant.photoURL ? (
+            <BarImage src={restaurant.photoURL} alt="Restaurant image" />
+          ) : (
+            <Fish
+              size={44}
+              color="white"
+              strokeWidth={1}
+              className="rounded-full"
+            />
+          )}
+        </Link>
         {!close && (
-          <h1 className="text-[20px] font-bold leading-6 text-white1">
+          <h1 className="text-[20px] font-bold capitalize leading-6 text-white1">
             {restaurant.name} Restaurant
           </h1>
         )}
@@ -153,15 +166,27 @@ export default function SideBar({
       ))}
 
       <footer className=" absolute bottom-[3%] flex flex-row items-center space-x-5 px-5 text-white1">
-        <BarImage src="/restaurantBackground.jpg" alt="Restaurant image" />
+        <Link href="/settings/account">
+          {user.photoURL ? (
+            <BarImage src={user.photoURL} alt="Restaurant image" />
+          ) : (
+            <User
+              size={44}
+              color="white"
+              strokeWidth={1}
+              className="rounded-full border border-white/50"
+            />
+          )}
+        </Link>
+
         {!close && (
           <div>
             <h1 className="text-[20px] font-bold leading-6 text-white1">
               Welcome
             </h1>
 
-            <span className="whitespace-nowrap text-lg font-semibold  leading-6">
-              {user?.username}
+            <span className="whitespace-nowrap text-lg font-semibold capitalize leading-6">
+              {user?.name || user?.username || "Guest 👻"}
             </span>
           </div>
         )}
