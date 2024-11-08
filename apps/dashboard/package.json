@@ -18,7 +18,7 @@
     "framer-motion": "^10.17.9",
     "html-to-image": "^1.11.11",
     "lucide-react": "^0.446.0",
-    "next": "^14.2.8",
+    "next": "^14.2.10",
     "next-intl": "^3.8.0",
     "rc-slider": "^10.5.0",
     "react": "^18.3.1",
