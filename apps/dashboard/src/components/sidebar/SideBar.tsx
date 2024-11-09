@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fish, User } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import type { Dispatch } from "react";
 import React, { useEffect } from "react";
 import styled from "styled-components";
@@ -12,7 +13,6 @@ import { useRestaurantStore } from "@/stores/restaurant";
 import { useUserStore } from "@/stores/user";
 
 import NavItem from "../ui/NavItem";
-import Link from "next/link";
 
 const NavItems: {
   text: string;
@@ -123,8 +123,8 @@ export default function SideBar({
     <NavBar className="m-6 mr-8 rounded-2xl" $close={close}>
       <header className="my-8 flex flex-row items-center space-x-5 px-5">
         <Link href="/settings/restaurant">
-          {restaurant.photoURL ? (
-            <BarImage src={restaurant.photoURL} alt="Restaurant image" />
+          {restaurant?.imageURL ? (
+            <BarImage src={restaurant.imageURL} alt="Restaurant image" />
           ) : (
             <Fish
               size={44}
@@ -168,7 +168,7 @@ export default function SideBar({
       <footer className=" absolute bottom-[3%] flex flex-row items-center space-x-5 px-5 text-white1">
         <Link href="/settings/account">
           {user.photoURL ? (
-            <BarImage src={user.photoURL} alt="Restaurant image" />
+            <BarImage src={user.photoURL} alt="User image" />
           ) : (
             <User
               size={44}

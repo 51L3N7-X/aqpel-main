@@ -6,7 +6,7 @@ import DialogComponent from "./Dialog";
 
 export default function SaveCancelButtons({
   closeModal,
-  editMode = true,
+  editMode = false,
   onDelete,
 }: {
   closeModal: () => any;

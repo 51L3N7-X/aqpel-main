@@ -8,7 +8,7 @@ import AddItem from "@/components/auth/AddItem";
 import ItemsContainer from "@/components/items/ItemsContainer";
 import DialogComponent from "@/components/ui/Dialog";
 import Item from "@/components/ui/Item";
-import WaiterForm from "@/components/waiter/Form";
+import WaiterForm from "@/components/waiter/WaiterForm";
 // import NewWaiterForm from "@/components/waiter/NewWaiterForm";
 import api from "@/lib/api";
 
@@ -28,6 +28,7 @@ export default function Waiters() {
 
   const { isLoading, data: waiters } = useQuery({
     queryKey: ["waiters"],
+    // eslint-disable-next-line prettier/prettier
     queryFn: async (): Promise<WaiterData[]> => {
       try {
         const data = await api({

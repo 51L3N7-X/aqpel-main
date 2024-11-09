@@ -4,6 +4,11 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  experimental: {
+    turbo: {
+      
+    }
+  },
   // webpack(config) {
   //   // Grab the existing rule that handles SVG imports
   //   const fileLoaderRule = config.module.rules.find((rule) =>

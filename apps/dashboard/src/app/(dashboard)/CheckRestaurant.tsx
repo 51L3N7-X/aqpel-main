@@ -33,7 +33,7 @@ export default function CheckRestaurant() {
       setIsDialogOpen(false);
       setRestaurant(restaurants[0]);
     }
-    if (!isLoading && !restaurants.length) {
+    if (!isLoading && !restaurants?.length) {
       setIsDialogOpen(true);
     }
   });

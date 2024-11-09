@@ -12,9 +12,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { Pencil, User } from "lucide-react";
 import Image from "next/image";
-import type { HTMLInputTypeAttribute } from "react";
 import React, { useEffect, useRef, useState } from "react";
-import type { UseFormRegister } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import FormErrors from "@/components/ui/FormErrors";
@@ -24,36 +22,13 @@ import api from "@/lib/api";
 import { useUserStore } from "@/stores/user";
 import { handleImageUpload } from "@/utils/handleImageUpload";
 
+import { InputFiled } from "../input";
+
 const InputHeader = ({ children }: { children: string }) => (
   <h3 className="text-lg text-primary">{children}</h3>
 );
 
-const InputFiled = ({
-  type,
-  placeholder,
-  register,
-  ...rest
-}: {
-  type: HTMLInputTypeAttribute;
-  name: string;
-  placeholder?: string;
-  register: UseFormRegister<any>;
-} & React.InputHTMLAttributes<HTMLInputElement>) => (
-  <div className="max-w-[250px] overflow-hidden rounded-[10px] border border-primary px-3 py-1">
-    <input
-      type={type}
-      {...register(rest.name, {
-        setValueAs: (v) => (type === "number" ? parseInt(v, 10) : v),
-      })}
-      className="h-6 w-full text-base font-bold text-primary outline-none"
-      placeholder={placeholder}
-      autoComplete="off"
-      {...rest}
-    />
-  </div>
-);
-
-export default function Account() {
+export default function AccountSettingsPage() {
   const { handleSubmit, register, setValue } = useForm();
 
   const user = useUserStore((state) => state.user);

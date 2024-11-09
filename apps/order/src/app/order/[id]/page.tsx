@@ -17,13 +17,14 @@ async function getData(id: string) {
 
   const response = await res.json();
   // ge
-  if (response.table == null) return null;
+  // if (response.table == null) return null;
   if (!response) return null;
   return response;
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
   const data = await getData(params.id);
+  console.log(data);
   if (!data) return notFound();
   return <Order params={params} table={data.table} />;
 }

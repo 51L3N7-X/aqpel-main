@@ -25,6 +25,7 @@ module.exports = {
       {
         doubleQuote: true,
         endOfLine: "auto",
+        usePrettierrc: false,
       },
     ], // Avoid conflict rule between Prettier and Airbnb Eslint
     "import/extensions": "off", // Avoid missing file extension errors, TypeScript already provides a similar feature

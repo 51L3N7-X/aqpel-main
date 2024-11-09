@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { ComponentProps } from "react";
 
 export const NavLink = ({
   href,
@@ -10,21 +10,21 @@ export const NavLink = ({
   ...props
 }: {
   href: string;
-  exact: boolean;
-  children: React.ReactNode;
+  exact?: boolean;
+  children?: React.ReactNode;
   className?: string;
-}) => {
+} & ComponentProps<"div">) => {
   const pathname = usePathname();
 
-  const isActive = exact ? pathname === href : pathname.startsWith(href);
+  const isActive = exact ? !!pathname.endsWith(href) : false;
 
   return (
-    <Link
-      href={href}
+    <div
+      // href={href}
       {...props}
-      style={isActive ? { fill: "#FFCC36" } : { fill: "white" }}
+      style={{ fill: isActive ? "#FFCC36" : "white", cursor: "pointer" }}
     >
       {children}
-    </Link>
+    </div>
   );
 };

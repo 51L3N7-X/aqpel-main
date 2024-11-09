@@ -1,22 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React from "react";
 
 import CartIcon from "@/public/menu/cartIcon.svg";
 import Chicken from "@/public/menu/chicken.svg";
 import HeartIcon from "@/public/menu/heartIcon.svg";
 import HomeIcon from "@/public/menu/home.svg";
+import { removePaths } from "@/utils/removePaths";
 
 import { NavLink } from "../NavLink/NavLink";
 
 export default function NavBar() {
-  const [firstPathName, setFirstPathName] = useState("");
   const pathname = usePathname();
-  useEffect(() => {
-    setFirstPathName(pathname);
-  }, [pathname]);
+  const router = useRouter();
   return (
     <div className="navbar fixed bottom-2 left-0 z-50 mx-[1%] w-[98%] rounded-3xl shadow-[0_-2px_3px_0_rgba(190,190,0.10)_inset_0_4px_4px_0_rgba(0,0,0.25)]">
       <div className="relative flex w-full justify-between">
@@ -24,11 +22,24 @@ export default function NavBar() {
         <div className="left my-[18px] flex w-1/3  justify-around">
           <NavLink
             exact
-            href={firstPathName.substring(0, pathname.lastIndexOf("/"))}
+            href={`${pathname}`}
+            onClick={() =>
+              pathname.endsWith("/menu")
+                ? router.push(removePaths(pathname, 1))
+                : router.push(removePaths(pathname, 2))
+            }
           >
             <HomeIcon />
           </NavLink>
-          <NavLink exact href={firstPathName}>
+          <NavLink
+            exact
+            href="menu"
+            onClick={() =>
+              !pathname.endsWith("/menu")
+                ? router.push(removePaths(pathname, 1))
+                : null
+            }
+          >
             <Chicken />
           </NavLink>
         </div>
@@ -39,10 +50,26 @@ export default function NavBar() {
         </div>
         {/* eslint-disable-next-line */}
         <div className="right my-[18px] flex w-1/3 justify-around">
-          <NavLink exact href={`${firstPathName}/favourites`}>
+          <NavLink
+            exact
+            onClick={() =>
+              pathname.endsWith("/menu")
+                ? router.push(`${pathname}/favourites`)
+                : router.push(`${removePaths(pathname, 1)}/favourites`)
+            }
+            href="favourites"
+          >
             <HeartIcon />
           </NavLink>
-          <NavLink exact href={`${firstPathName}/cart`}>
+          <NavLink
+            exact
+            href="cart"
+            onClick={() =>
+              pathname.endsWith("/menu")
+                ? router.push(`${pathname}/cart`)
+                : router.push(`${removePaths(pathname, 1)}/cart`)
+            }
+          >
             <CartIcon />
           </NavLink>
         </div>

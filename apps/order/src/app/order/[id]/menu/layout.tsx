@@ -1,3 +1,5 @@
+"use client";
+
 import "./globals.css";
 
 import { Poppins } from "next/font/google";
