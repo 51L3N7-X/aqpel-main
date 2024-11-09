@@ -15,11 +15,14 @@ export function Items() {
   const getItems = async () => {
     // eslint-disable-next-line
     const { restaurantId } = JSON.parse(localStorage.getItem("table")!);
+    const { defaultMenu: menuId } = JSON.parse(
+      localStorage.getItem("restaurant")!,
+    );
 
     localStorage.setItem("restaurantId", restaurantId);
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}${restaurantId}/items`,
+      `${process.env.NEXT_PUBLIC_API_URL}${menuId}/items`,
     );
 
     const data = await response.json();

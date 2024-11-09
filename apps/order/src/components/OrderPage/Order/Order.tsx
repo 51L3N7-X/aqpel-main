@@ -17,9 +17,11 @@ import { socket } from "./socket.ts";
 export default function Order({
   params,
   table,
+  restaurant,
 }: {
   params: { id: string };
   table: any;
+  restaurant: any;
 }) {
   const pathname = usePathname();
   const [, setIsConnected] = useState(socket.connected);
@@ -60,6 +62,7 @@ export default function Order({
     socket.on("user", onUser);
 
     localStorage.setItem("table", JSON.stringify(table));
+    localStorage.setItem("restaurant", JSON.stringify(restaurant));
 
     return () => {
       socket.off("connect", onConnect);
