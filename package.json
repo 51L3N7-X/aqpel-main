@@ -1,14 +1,18 @@
 {
   "name": "aqpel",
   "devDependencies": {
-    "prettier": "^3.1.1",
+    "prettier": "^3.4.2",
     "turbo": "latest"
   },
   "engines": {
     "node": ">=20"
   },
+  "packageManager": "pnpm@9.14.2",
   "private": true,
-  "workspaces":["packges/*","apps/*"],
+  "workspaces": [
+    "packges/*",
+    "apps/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",

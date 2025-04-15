@@ -1,0 +1,7 @@
+/* .custom-steps .ant-steps-item-title {
+    color: white !important
+} */
+
+.custom-steps .ant-steps-item:not(:last-child) .ant-steps-item-description {
+    margin-bottom: 48px;
+}

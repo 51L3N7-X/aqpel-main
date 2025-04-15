@@ -3,9 +3,10 @@
 import { Suspense, useEffect, useState } from "react";
 
 import ItemPage from "./itemPage";
+import { ItemData } from "@repo/types";
 
 export default function Page({ params }: { params: { itemId: string } }) {
-  const [data, setData] = useState({});
+  const [data, setData] = useState<ItemData>();
   const [isExist, setIsExist] = useState(false);
 
   useEffect(() => {
@@ -27,8 +28,7 @@ export default function Page({ params }: { params: { itemId: string } }) {
 
   return (
     <Suspense fallback={<div>Loading ...</div>}>
-      {isExist && (
-        /* @ts-ignore */
+      {isExist && data && (
         <ItemPage item={data} />
       )}
     </Suspense>

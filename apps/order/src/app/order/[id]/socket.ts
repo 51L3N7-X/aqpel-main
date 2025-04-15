@@ -8,7 +8,3 @@ const url =
 export const socket = io(url, {
   autoConnect: false,
 });
-
-// export const waiter = io("wss://api.aqpel.online", {
-//   autoConnect: false,
-// });

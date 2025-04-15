@@ -19,8 +19,10 @@ body {
 } */
 
 .parent {
-  min-height: 100dvh;
-  background-image: url(/order/images/background.jpg);
+  touch-action: none;
+  position: relative;
+  height: 100dvh;
+  /* min-height: 100dvh; */
   font-family: "M PLUS Rounded 1c", sans-serif;
   overflow: hidden;
 }

@@ -8,11 +8,11 @@ import Alert from "@/components/Menu/Alert/Alert";
 import BottomButton from "@/components/Menu/BottomButton/BottomButton";
 import ItemsTextsContainer from "@/components/Menu/itemTextsContainer/ItemsTextsContainer";
 import ItemTopBar from "@/components/Menu/ItemTopBar/ItemTopBar";
-import Cart from "@/public/menu/cartIcon.svg";
+import CartIcon from "@/public/menu/cartIcon.svg";
 import FilledHeart from "@/public/menu/filledHeart.svg";
 
-import type { CartItem } from "../../../../../utils/cart";
-import { CartStore } from "../../../../../utils/cart";
+import type { CartItem } from "../../../../../../utils/cart";
+import { CartStore } from "../../../../../../utils/cart";
 
 export default function ItemPage({ item }: { item: ItemData }) {
   const [cartClicked, setCartClicked] = useState(false);
@@ -61,7 +61,7 @@ export default function ItemPage({ item }: { item: ItemData }) {
         {cartClicked && (
           <Alert
             title="Added To Cart"
-            Icon={<Cart style={{ fill: "white" }} />}
+            Icon={<CartIcon style={{ fill: "white" }} />}
           />
         )}
         {likeClicked && (
@@ -70,7 +70,7 @@ export default function ItemPage({ item }: { item: ItemData }) {
       </AnimatePresence>
       <BottomButton
         title="Add to cart"
-        Icon={<Cart style={{ fill: "white" }} />}
+        Icon={<CartIcon style={{ fill: "white" }} />}
         onClick={onClickAddToCart}
       />
     </>

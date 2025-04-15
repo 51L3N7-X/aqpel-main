@@ -4,11 +4,16 @@
   flex-direction: row;
   flex-wrap: wrap;
   margin: 0 auto;
-  gap: 12px 15px;
-  justify-content: center;
+  gap: 12px 0px;
+  justify-content: flex-start;
   transition: all 1s;
   animation: fade-in 1s;
 }
+
+.container > * {
+  margin-left: 12px;
+}
+
 
 @keyframes fade-in {
   from {

@@ -1,3 +1,5 @@
+
+
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
@@ -7,13 +9,13 @@
     "NEXT_PUBLIC_API",
     "SOCKET_URL"
   ],
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {
-      "dotEnv": [".env", ".env.development", ".env.production"],
+      "env": ["NODE_ENV"],
       "dependsOn": ["^lint"]
     },
     "dev": {
@@ -23,6 +25,5 @@
     "test": {
       "dependsOn": ["^test"]
     }
-  },
-  "globalDotEnv": [".env", ".env.development", ".env.production"]
+  }
 }
