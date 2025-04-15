@@ -9,6 +9,7 @@ import Order from "@/components/OrderPage/Order/Order";
 // }
 
 async function getTable(id: string) {
+  // console.log(process.env.NEXT_PUBLIC_API_URL);
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${id}`);
 
   // console.log(res.status);

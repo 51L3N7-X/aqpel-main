@@ -12,7 +12,9 @@ import Loading from "../Loading/Loading";
 import NavBar from "../NavBar/Navbar";
 import Received from "../Received/Received";
 import style from "./order.module.css";
-import { socket } from "./socket.ts";
+import LucideButton from "../Button/LucideButton.tsx";
+import { Route } from "lucide-react";
+import { socket } from "@/app/order/[id]/socket.ts";
 
 export default function Order({
   params,
@@ -32,15 +34,9 @@ export default function Order({
   const [receivedData, setReceivedData] = useState<any>({});
 
   useEffect(() => {
-    socket.connect();
-    // waiter.connect();
-
-    socket.emit("subscribe", String(params.id));
-    // waiter.emit("subscribe", [String(params.id)]);
-
     function onDone({ name, photoUrl }: { name: string; photoUrl: string }) {
-      setIsLoading(() => false);
-      setIsOrderReceived(() => true);
+      setIsLoading(false);
+      setIsOrderReceived(true);
       setReceivedData({ name, photoUrl });
     }
 
@@ -111,39 +107,39 @@ export default function Order({
   };
 
   return (
-    <div className="parent relative">
-      <div className={style.wrapper}>
-        <NavBar />
-        <Buttons
-          style={{
-            display: isButtonPressed ? "none" : "flex",
-            animation: isButtonPressed ? "fade-in 1s" : "fade-out",
-          }}
-        >
+    <>
+      <NavBar />
+      <Buttons
+        style={{
+          display: isButtonPressed ? "none" : "flex",
+          animation: isButtonPressed ? "fade-in 1s" : "fade-out",
+        }}
+      >
+        <Button
+          name="Call Waiter"
+          imageName="waiter"
+          onClick={() => onOrder("Waiter")}
+        />
+        <Link href={`${pathname}/menu`}>
           <Button
-            name="Call Waiter"
-            imageName="waiter"
-            onClick={() => onOrder("Waiter")}
+            name="Menu"
+            imageName="menu"
+            // onClick={() => {}}
           />
-          <Link href={`${pathname}/menu`}>
-            <Button
-              name="Menu"
-              imageName="menu"
-              onClick={() => onOrder("Menu")}
-            />
-          </Link>
-          <Button
-            name="Bill"
-            imageName="bill"
-            onClick={() => onOrder("Bill")}
-          />
-          <Button
-            name="Embers"
-            imageName="embers"
-            onClick={() => onOrder("Embers")}
-          />
-        </Buttons>
-        {/* <Suspense
+        </Link>
+        <Button name="Bill" imageName="bill" onClick={() => onOrder("Bill")} />
+        <Button
+          name="Embers"
+          imageName="embers"
+          onClick={() => onOrder("Embers")}
+        />
+        {/* <Link href={`${pathname}/progress`} style={{ alignSelf: "flex-start" }}>
+          <LucideButton name="Progress">
+            <Route size={90} color="#313638"></Route>
+          </LucideButton>
+        </Link> */}
+      </Buttons>
+      {/* <Suspense
           fallback={
             <Loading
               name={callingName}
@@ -154,19 +150,17 @@ export default function Order({
           <Received></Received>
         </Suspense> */}
 
-        <Loading
-          name={callingType}
-          style={{ display: isLoading ? "flex" : "none" }}
-        />
-        <Received
-          name={receivedData.name}
-          tableNumber={table.number}
-          imageLink={receivedData.photoUrl}
-          style={{ display: isOrderReceived ? "flex" : "none" }}
-          onClick={onCardClick}
-        />
-      </div>
-      <div className={style.background} />
+      <Loading
+        name={callingType}
+        style={{ display: isLoading ? "flex" : "none" }}
+      />
+      <Received
+        name={receivedData.name}
+        tableNumber={table.number}
+        imageLink={receivedData.photoUrl}
+        style={{ display: isOrderReceived ? "flex" : "none" }}
+        onClick={onCardClick}
+      />
       {/* <Image
         className={style.steam}
         src="/order/images/steam.png"
@@ -174,6 +168,6 @@ export default function Order({
         width={757}
         height={591}
       ></Image> */}
-    </div>
+    </>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function page() {
-  return <div>what are you doing here</div>;
+export default function Page() {
+  return <div>ayo, What are you doing here?</div>;
 }
